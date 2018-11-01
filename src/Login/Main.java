@@ -1,5 +1,6 @@
 package Login;
 
+import database.DatabaseConnector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,10 +18,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.sql.Connection;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        DatabaseConnector conn;
+        conn = new DatabaseConnector();
+        conn.test();
         primaryStage.setTitle("Atlanta Zoo");
 
         GridPane grid = new GridPane();
@@ -69,6 +75,13 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 Controller controller = new Controller();
                 controller.Login(userTextField.getText(), pwBox.getText());
+            }
+        });
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Controller controller = new Controller();
+                controller.Register(userTextField.getText(), pwBox.getText());
             }
         });
 
