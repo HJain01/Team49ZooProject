@@ -60,6 +60,13 @@ public class Login extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+
+        register.setOnAction(e -> {
+            Register registerPage = new Register();
+            primaryStage.getScene().setRoot(registerPage.getRootPane());
+            primaryStage.hide();
+        });
     }
 
 
