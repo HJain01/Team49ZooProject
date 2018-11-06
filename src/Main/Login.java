@@ -61,6 +61,13 @@ public class Login extends Application {
 
         primaryStage.show();
 
+        //Sign-In button currently just takes you to VisitorFunctionality, add in if-statement later
+        SignIn.setOnAction(e -> {
+            VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+            primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
 
         register.setOnAction(e -> {
             Register registerPage = new Register();
