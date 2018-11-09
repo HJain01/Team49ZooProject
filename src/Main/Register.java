@@ -1,5 +1,8 @@
 package Main;
 
+import Controllers.RegistrationController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -79,6 +82,14 @@ public class Register  {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                RegistrationController controller = new RegistrationController();
+                controller.registerVisitor(userNameBox.getText(),pwTextBox.getText(), emailTextField.getText());
+            }
+        });
     }
 
     public Pane getRootPane() {
