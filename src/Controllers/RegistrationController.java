@@ -6,6 +6,7 @@ import database.DatabaseConnector;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 
 
 public class RegistrationController {
@@ -16,6 +17,7 @@ public class RegistrationController {
         User newVisitor = new User();
         newVisitor.email = email;
         newVisitor.username = username;
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         //TODO: add password hashing
         newVisitor.password = password;
         newVisitor.type = User.Type.VISITOR;
@@ -31,5 +33,4 @@ public class RegistrationController {
         }
         return newVisitor;
     }
-
 }
