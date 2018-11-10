@@ -79,6 +79,12 @@ public class VisitorFunctionality {
             primaryStage.hide();
         });
 
+        searchShows.setOnAction(e -> {
+            SearchForShows shows = new SearchForShows();
+            primaryStage.getScene().setRoot(shows.getRootPane());
+            primaryStage.hide();
+        });
+
         primaryStage.show();
     }
 
