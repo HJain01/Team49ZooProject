@@ -11,12 +11,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class SearchForExhibits {
 
-    private TableView table = new TableView();
+    private TableView table;
     public final BorderPane rootPane;
 
 
@@ -68,13 +66,13 @@ public class SearchForExhibits {
         Label minSize = new Label("Min");
         grid.add(minSize, 5, 4);
         final ComboBox minSizeNumber = new ComboBox();
-        minSizeNumber.getItems().addAll(generator());
+        minSizeNumber.getItems().addAll(exhibitGenerator());
         grid.add(minSizeNumber, 5, 5);
 
         Label maxSize = new Label("Max");
         grid.add(maxSize, 6, 4);
         final ComboBox maxSizeNumber = new ComboBox();
-        maxSizeNumber.getItems().addAll(generator());
+        maxSizeNumber.getItems().addAll(exhibitGenerator());
         grid.add(maxSizeNumber, 6, 5);
 
         Label waterFeature = new Label("Water Feature: ");
@@ -92,8 +90,8 @@ public class SearchForExhibits {
         TableColumn waterCol = new TableColumn("Water");
 
         table.getColumns().setAll(nameCol, sizeCol, animalNumCol, waterCol);
-        table.setPrefWidth(450);
-        table.setPrefHeight(250);
+        table.setPrefWidth(400);
+        table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
@@ -115,6 +113,18 @@ public class SearchForExhibits {
 
         for (int i = 0; i < result.length; i++) {
             result[i] = i;
+
+        }
+        return result;
+    }
+
+    private Integer[] exhibitGenerator() {
+        int size = 50;
+        Integer[] result = new Integer[size];
+        result[0] = 0;
+
+        for (int i = 1; i < result.length; i++) {
+            result[i] = result[i-1] + 50;
 
         }
         return result;

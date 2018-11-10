@@ -73,6 +73,12 @@ public class VisitorFunctionality {
             primaryStage.hide();
         });
 
+        searchForAnimals.setOnAction(e -> {
+            SearchForAnimals animals = new SearchForAnimals();
+            primaryStage.getScene().setRoot(animals.getRootPane());
+            primaryStage.hide();
+        });
+
         primaryStage.show();
     }
 
