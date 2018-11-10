@@ -33,7 +33,7 @@ public class SearchForExhibits {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Atlanta Zoo");
+        Text scenetitle = new Text("Atlanta Zoo Exhibits");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
