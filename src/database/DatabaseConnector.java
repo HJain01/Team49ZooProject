@@ -8,7 +8,7 @@ public class DatabaseConnector {
     public static void test() {
         Connection con = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection("jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_group49",
                     "cs4400_group49",
                     "CYA8Y6z8");
@@ -23,5 +23,26 @@ public class DatabaseConnector {
                     con.close();
             } catch(SQLException e) {}
         }
+    }
+    public static Connection establishConnection(){
+        Connection con = null;
+        try {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            } catch(ClassNotFoundException e)
+            {
+                //do nothing for now;
+            }
+
+            con = DriverManager.getConnection("jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_group49",
+                    "cs4400_group49",
+                    "CYA8Y6z8");
+            if(!con.isClosed())
+                System.out.println("Successfully connected to " +
+                        "MySQL server using TCP/IP...");
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+        return con;
     }
 } 
