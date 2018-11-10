@@ -51,7 +51,7 @@ public class SearchForShows {
         final ComboBox exhibitType = new ComboBox();
         exhibitType.getItems().addAll("Pacific", "Jungle", "Sahara", "Mountainous", "Birds");
         grid.add(exhibitType, 1, 5);
-        
+
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
         TableColumn exhibitCol = new TableColumn("Exhibit");

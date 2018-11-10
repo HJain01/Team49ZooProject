@@ -85,6 +85,12 @@ public class VisitorFunctionality {
             primaryStage.hide();
         });
 
+        viewExhibitHistory.setOnAction(e -> {
+            ExhibitHistory exhibitHistory = new ExhibitHistory();
+            primaryStage.getScene().setRoot(exhibitHistory.getRootPane());
+            primaryStage.hide();
+        });
+
         primaryStage.show();
     }
 
