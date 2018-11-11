@@ -1,10 +1,11 @@
 package Main;
 
+import Controllers.LoginController;
+import DataModel.User;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Login extends Application {
 
@@ -64,8 +66,12 @@ public class Login extends Application {
         //Sign-In button currently just takes you to VisitorFunctionality, add in if-statement later
         SignIn.setOnAction(e -> {
             VisitorFunctionality visitorSignIn = new VisitorFunctionality();
-            primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
-            primaryStage.hide();
+            LoginController con = new LoginController();
+            User user = con.loginUser(userTextField.getText(), pwBox.getText());
+            if (user.email != null) {
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
 
