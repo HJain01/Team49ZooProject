@@ -12,4 +12,29 @@ public class Exhibit {
         this.numAnimals = numAnimals;
         this.waterFeature = waterFeature;
     }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String nameIn) {
+        name = nameIn;
+    }
+    public int getSize() {
+        return size;
+    }
+    public void setSize(int sizeIn) {
+        size = sizeIn;
+    }
+    public int getNumAnimals() {
+        return numAnimals;
+    }
+    public void setNumAnimals(int numAnimalsIn) {
+        numAnimals = numAnimalsIn;
+    }
+    public boolean getWaterFeature() {
+        return waterFeature;
+    }
+    public void setWaterFeature(boolean waterFeatureIn) {
+        waterFeature = waterFeatureIn;
+    }
 }

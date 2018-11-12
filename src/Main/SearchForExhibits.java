@@ -40,7 +40,10 @@ public class SearchForExhibits {
         try {
             while (set.next()) {
                 int numAnimals = controller.getNumAnimals(set.getString(1));
-                data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals, set.getBoolean(3)));
+                String name = set.getString(1);
+                int size = set.getInt(2);
+                boolean waterFeature = set.getBoolean(3);
+                data.addAll(new Exhibit(name, size, numAnimals, waterFeature));
             }
         } catch (SQLException e) {
             e.printStackTrace();

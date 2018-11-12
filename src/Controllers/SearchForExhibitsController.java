@@ -14,7 +14,7 @@ public class SearchForExhibitsController {
         int numAnimals = 0;
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT COUNT(LivesIn) FROM Animal WHERE LivesIn=\"" + exhibitName + "\"";
+            String sql = "SELECT COUNT(LivesIn) FROM Animal WHERE LivesIn=\'" + exhibitName + "\'";
             statement.execute(sql);
             ResultSet set = statement.getResultSet();
             while(set.next()) {
@@ -38,10 +38,10 @@ public class SearchForExhibitsController {
             } else {
                 water=0;
             }
-            String countSql = "SELECT COUNT(LivesIn) FROM Animal WHERE LivesIn=" + name;
-            String sql = "SELECT * FROM Exhibit WHERE Name=" + name + " AND Size>=" + minSize + " AND Size<=" + maxSize
-                    + " AND WaterFeature=" + water + " AND " + countSql + ">=" + minAnimals
-                    + " AND " + countSql + "<=" + maxAnimals;
+            String countSql = "SELECT COUNT(LivesIn) FROM Animal WHERE LivesIn=\"" + name + "\"";
+            String sql = "SELECT * FROM Exhibit WHERE Name=\"" + name + "\" AND Size>=" + minSize + " AND Size<=" + maxSize
+                    + " AND WaterFeature=" + water + " AND (" + countSql + ")>=" + minAnimals
+                    + " AND (" + countSql + ")<=" + maxAnimals;
             statement.execute(sql);
             set = statement.getResultSet();
         }catch (SQLException e) {
