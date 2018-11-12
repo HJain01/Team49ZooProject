@@ -1,15 +1,28 @@
 package Main;
 
+import Controllers.SearchForExhibitsController;
+import DataModel.Exhibit;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class SearchForExhibits {
@@ -21,6 +34,17 @@ public class SearchForExhibits {
     public SearchForExhibits() {
 
         rootPane = new BorderPane();
+        ObservableList<Exhibit> data = FXCollections.observableArrayList();
+        SearchForExhibitsController controller = new SearchForExhibitsController();
+        ResultSet set = controller.getExhibitInfo();
+        try {
+            while (set.next()) {
+                int numAnimals = controller.getNumAnimals(set.getString(1));
+                data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals, set.getBoolean(3)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Atlanta Zoo");
@@ -85,10 +109,15 @@ public class SearchForExhibits {
 
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("name"));
         TableColumn sizeCol = new TableColumn("Size");
+        sizeCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("size"));
         TableColumn animalNumCol = new TableColumn("Number of Animals");
+        animalNumCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("numAnimals"));
         TableColumn waterCol = new TableColumn("Water");
+        waterCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("waterFeature"));
 
+        table.getItems().addAll(data);
         table.getColumns().setAll(nameCol, sizeCol, animalNumCol, waterCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
@@ -104,6 +133,32 @@ public class SearchForExhibits {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String name = nameTextField.getText();
+                int minNum = (int) minNumber.getValue();
+                int maxNum = (int) maxNumber.getValue();
+                int minSize = (int) minSizeNumber.getValue();
+                int maxSize = (int) maxSizeNumber.getValue();
+                String water = (String) waterFeatureBox.getValue();
+                SearchForExhibitsController controller = new SearchForExhibitsController();
+                ResultSet set = controller.searchButtonPressed(name, minNum, maxNum, water, minSize, maxSize);
+                ObservableList<Exhibit> data = FXCollections.observableArrayList();
+                try {
+                    while (set.next()) {
+                        int numAnimals = controller.getNumAnimals(set.getString(1));
+                        data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals, set.getBoolean(3)));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                table.getItems().clear();
+                table.getItems().addAll(data);
+
+            }
+        });
 
     }
 
