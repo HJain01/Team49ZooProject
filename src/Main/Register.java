@@ -86,8 +86,20 @@ public class Register  {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                RegistrationController controller = new RegistrationController();
-                controller.registerVisitor(userNameBox.getText(),pwTextBox.getText(), emailTextField.getText());
+                if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
+                    RegistrationController controller = new RegistrationController();
+                    controller.registerVisitor(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                }
+            }
+        });
+
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
+                    RegistrationController controller = new RegistrationController();
+                    controller.registerStaff(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                }
             }
         });
     }

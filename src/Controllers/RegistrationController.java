@@ -12,6 +12,18 @@ import java.util.Base64;
 public class RegistrationController {
     public DatabaseConnector conn;
 
+    public void sqlCall(User user) {
+        Connection conn = DatabaseConnector.establishConnection();
+        try{
+            Statement statement = conn.createStatement();
+            statement.executeUpdate("INSERT INTO User VALUES ('"+user.username+"', '"+user.email +
+                    "', '"+user.password+"', '"+user.type+"')");
+            System.out.println("Success!");
+        } catch (SQLException e){
+            e.getMessage();
+        }
+    }
+
     public User registerVisitor(String username, String password, String email)
     {
         User newVisitor = new User();
@@ -21,16 +33,20 @@ public class RegistrationController {
         //TODO: add password hashing
         newVisitor.password = password;
         newVisitor.type = User.Type.VISITOR;
-
-        Connection connection = DatabaseConnector.establishConnection();
-        try{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO User VALUES ('"+newVisitor.username+"', '"+newVisitor.email +
-                    "', '"+newVisitor.password+"', '"+newVisitor.type+"')");
-            System.out.println("Success!");
-        } catch (SQLException e){
-            e.getMessage();
-        }
+        sqlCall(newVisitor);
         return newVisitor;
+    }
+
+    public User registerStaff(String username, String password, String email)
+    {
+        User newStaff = new User();
+        newStaff.email = email;
+        newStaff.username = username;
+        password = Base64.getEncoder().encodeToString(password.getBytes());
+        //TODO: add password hashing
+        newStaff.password = password;
+        newStaff.type = User.Type.STAFF;
+        sqlCall(newStaff);
+        return newStaff;
     }
 }
