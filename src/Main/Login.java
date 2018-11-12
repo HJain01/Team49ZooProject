@@ -6,10 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -65,12 +62,18 @@ public class Login extends Application {
 
         //Sign-In button currently just takes you to VisitorFunctionality, add in if-statement later
         SignIn.setOnAction(e -> {
-            VisitorFunctionality visitorSignIn = new VisitorFunctionality();
             LoginController con = new LoginController();
             User user = con.loginUser(userTextField.getText(), pwBox.getText());
             if (user.email != null) {
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
                 primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
                 primaryStage.hide();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Incorrect Information");
+                alert.setHeaderText(null);
+                alert.setContentText("You have entered the incorrect username/password.");
+                alert.showAndWait();
             }
         });
 
