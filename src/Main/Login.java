@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public class Login extends Application {
 
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Atlanta Zoo");
@@ -60,14 +61,26 @@ public class Login extends Application {
 
         primaryStage.show();
 
-        //Sign-In button currently just takes you to VisitorFunctionality, add in if-statement later
+
         SignIn.setOnAction(e -> {
             LoginController con = new LoginController();
             User user = con.loginUser(userTextField.getText(), pwBox.getText());
             if (user.email != null) {
-                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
-                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
-                primaryStage.hide();
+                if (user.type.toString().equals("VISITOR")) {
+                    VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                    primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                    primaryStage.hide();
+                }
+                if (user.type.toString().equals("STAFF")) {
+                    StaffFunctionality staffSignIn = new StaffFunctionality();
+                    primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                    primaryStage.hide();
+                }
+                if (user.type.toString().equals("ADMIN")) {
+                    AdminFunctionality adminSignIn = new AdminFunctionality();
+                    primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                    primaryStage.hide();
+                }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Incorrect Information");
