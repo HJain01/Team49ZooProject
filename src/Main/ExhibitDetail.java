@@ -1,5 +1,9 @@
 package Main;
 
+import Controllers.ExhibitDetailController;
+import DataModel.Animal;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -8,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +22,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 //this class is currently not being used and is not connected
 //to any of the other pages
 
@@ -25,7 +32,7 @@ public class ExhibitDetail {
     private TableView table;
     public final BorderPane rootPane;
 
-    public ExhibitDetail() {
+    public ExhibitDetail(String name, int size, int numAnimals, boolean waterFeature) {
 
         rootPane = new BorderPane();
 
@@ -42,25 +49,25 @@ public class ExhibitDetail {
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 8, 1);
 
-        Label name = new Label("Name: ");
+        Label exhibitName = new Label("Name: " + name);
         //add a getter for the animal name
         Group rootName = new Group();
-        rootName.getChildren().addAll(name);
+        rootName.getChildren().addAll(exhibitName);
         grid.add(rootName, 0, 2);
 
-        Label size = new Label("Size: ");
+        Label exhibitSize = new Label("Size: " + size);
         //add getter method for size
         Group rootSize = new Group();
-        rootSize.getChildren().addAll(size);
+        rootSize.getChildren().addAll(exhibitSize);
         grid.add(rootSize, 2, 2);
 
-        Label AnimalNum = new Label("Num of Animals: ");
+        Label AnimalNum = new Label("Num of Animals: " + numAnimals);
         //add getter method for number of animals
         Group rootNum = new Group();
         rootNum.getChildren().addAll(AnimalNum);
         grid.add(rootNum, 4, 2);
 
-        Label water = new Label("Water Feature: ");
+        Label water = new Label("Water Feature: " + waterFeature);
         //add getter method for water feature
         Group rootWater = new Group();
         rootWater.getChildren().addAll(water);
@@ -72,19 +79,32 @@ public class ExhibitDetail {
         LogVisitBox.getChildren().add(LogVisit);
         grid.add(LogVisitBox, 3, 4);
 
+        ObservableList<Animal> data = FXCollections.observableArrayList();
+        ExhibitDetailController controller = new ExhibitDetailController();
+        List<Animal> animalList = controller.getAnimals(name);
+        while (!animalList.isEmpty()) {
+            data.addAll(animalList.get(0));
+            animalList.remove(0);
+        }
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("name"));
         TableColumn speciesCol = new TableColumn("Species");
+        speciesCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("species"));
+        TableColumn ageColumn = new TableColumn("Age");
+        ageColumn.setCellValueFactory(new PropertyValueFactory<Animal, String>("age"));
+        TableColumn livesInColumn = new TableColumn("Lives In");
+        livesInColumn.setCellValueFactory(new PropertyValueFactory<Animal, String>("livesIn"));
+        TableColumn typeColumn = new TableColumn("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
 
-        table.getColumns().setAll(nameCol, speciesCol);
+
+        table.getColumns().setAll(nameCol, speciesCol, ageColumn, livesInColumn, typeColumn);
+        table.setItems(data);
         table.setPrefWidth(450);
         table.setPrefHeight(250);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         grid.add(table, 0, 6, 8, 8);
-
-
-        ExhibitDetail detailPage = new ExhibitDetail();
-        primaryStage.getScene().setRoot(detailPage.getRootPane());
 
         Scene scene = new Scene(grid,580, 500);
         primaryStage.setScene(scene);

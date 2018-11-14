@@ -111,6 +111,20 @@ public class SearchForExhibits {
         grid.add(waterFeatureBox, 1, 5);
 
         table = new TableView<>();
+
+        table.setRowFactory(tv -> {
+            TableRow<Exhibit> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Exhibit rowData = row.getItem();
+                    ExhibitDetail exhibitDetail = new ExhibitDetail(rowData.name, rowData.size, rowData.numAnimals, rowData.waterFeature);
+                    primaryStage.getScene().setRoot(exhibitDetail.getRootPane());
+                    primaryStage.hide();
+                }
+            });
+            return row ;
+        });
+
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("name"));
         TableColumn sizeCol = new TableColumn("Size");
@@ -120,8 +134,9 @@ public class SearchForExhibits {
         TableColumn waterCol = new TableColumn("Water");
         waterCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("waterFeature"));
 
-        table.getItems().addAll(data);
+
         table.getColumns().setAll(nameCol, sizeCol, animalNumCol, waterCol);
+        table.setItems(data);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
