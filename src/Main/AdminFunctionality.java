@@ -56,10 +56,16 @@ public class AdminFunctionality {
         addShowBox.getChildren().add(addShow);
         grid.add(addShowBox, 0, 3);
 
+        Button addAnimal = new Button("Add Animal");
+        HBox addAnimalBox = new HBox(10);
+        addAnimalBox.getChildren().add(addAnimal);
+        grid.add(addAnimalBox, 3, 3);
+
         Button logOut = new Button("Log Out");
         HBox logOutBox = new HBox(10);
         logOutBox.getChildren().add(logOut);
-        grid.add(logOutBox, 3, 3);
+        logOutBox.setAlignment(Pos.CENTER);
+        grid.add(logOutBox, 0, 4, 4, 5);
 
         Text scenetitle = new Text("Atlanta Zoo");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
