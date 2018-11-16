@@ -1,5 +1,6 @@
 package Main;
 
+import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import static javafx.application.Application.launch;
 
 
 public class VisitorFunctionality {

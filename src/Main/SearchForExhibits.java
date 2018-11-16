@@ -2,6 +2,7 @@ package Main;
 
 import Controllers.SearchForExhibitsController;
 import DataModel.Exhibit;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,11 +25,17 @@ import javafx.stage.Stage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static javafx.application.Application.launch;
 
-public class SearchForExhibits {
+
+public class SearchForExhibits  {
 
     private TableView table;
     public final BorderPane rootPane;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 
     public SearchForExhibits() {

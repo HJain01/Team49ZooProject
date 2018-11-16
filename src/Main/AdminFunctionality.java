@@ -70,6 +70,12 @@ public class AdminFunctionality {
 
         primaryStage.show();
 
+        addShow.setOnAction(e -> {
+            AddShows addShowPage = new AddShows();
+            primaryStage.getScene().setRoot(addShowPage.getRootPane());
+            primaryStage.hide();
+        });
+
     }
 
     public Pane getRootPane() {
