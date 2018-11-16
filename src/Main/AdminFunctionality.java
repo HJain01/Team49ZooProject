@@ -82,6 +82,13 @@ public class AdminFunctionality {
             primaryStage.hide();
         });
 
+        addAnimal.setOnAction(e -> {
+            AddAnimal addAnimalPage = new AddAnimal();
+            primaryStage.getScene().setRoot(addAnimalPage.getRootPane());
+            primaryStage.hide();
+        });
+
+
     }
 
     public Pane getRootPane() {

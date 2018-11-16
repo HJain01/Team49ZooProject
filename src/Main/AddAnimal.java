@@ -31,7 +31,7 @@ public class AddAnimal {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Add Shows");
+        Text scenetitle = new Text("Add Animals");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -64,7 +64,7 @@ public class AddAnimal {
         ageNum.getItems().addAll(ageGenerator());
         grid.add(ageNum, 1, 6);
 
-        Button addButton = new Button("Add Show");
+        Button addButton = new Button("Add Animal");
         HBox addBox = new HBox(10);
         addBox.getChildren().add(addButton);
         grid.add(addBox, 4, 4);
@@ -80,7 +80,7 @@ public class AddAnimal {
     }
 
     private Integer[] ageGenerator() {
-        int size = 50;
+        int size = 51;
         Integer[] result = new Integer[size];
 
         for (int i = 0; i < result.length; i++) {
