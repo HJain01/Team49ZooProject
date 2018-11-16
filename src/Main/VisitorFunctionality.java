@@ -92,6 +92,12 @@ public class VisitorFunctionality {
             primaryStage.hide();
         });
 
+        viewShowHistory.setOnAction(e -> {
+            ShowHistory showHistory = new ShowHistory();
+            primaryStage.getScene().setRoot(showHistory.getRootPane());
+            primaryStage.hide();
+        });
+
         primaryStage.show();
     }
 
