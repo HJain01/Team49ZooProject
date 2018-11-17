@@ -41,7 +41,7 @@ public class ViewAnimals {
         exhibitSearchBox.getItems().addAll(
                 "Pacific", "Jungle", "Sahara", "Mountainous", "Birds"
         );
-        grid.add(exhibitSearchBox, 5, 0);
+        grid.add(exhibitSearchBox, 5, 0, 6, 1);
 
         Label name = new Label("Name:");
         grid.add(name, 0, 2);
@@ -99,12 +99,12 @@ public class ViewAnimals {
         HBox removeBox = new HBox(10);
         removeBox.setAlignment(Pos.CENTER);
         removeBox.getChildren().add(removeAnimalButton);
-        grid.add(removeBox, 3, 7);
+        grid.add(removeBox, 3, 15);
 
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,580, 500);
+        Scene scene = new Scene(root,600, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();
