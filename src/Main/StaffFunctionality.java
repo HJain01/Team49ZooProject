@@ -61,6 +61,12 @@ public class StaffFunctionality  {
             primaryStage.hide();
         });
 
+        viewShows.setOnAction(e -> {
+            StaffHostedShows hostedShows = new StaffHostedShows();
+            primaryStage.getScene().setRoot(hostedShows.getRootPane());
+            primaryStage.hide();
+        });
+
 
     }
 
