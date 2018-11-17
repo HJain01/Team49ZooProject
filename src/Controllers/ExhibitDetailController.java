@@ -13,7 +13,7 @@ import java.util.List;
 public class ExhibitDetailController {
 
     public List<Animal> getAnimals(String exhibitName) {
-        Animal animal = new Animal();
+        Animal animal = new Animal("", "", "", 0, "");
         List<Animal> animalList = new ArrayList<>();
         Connection conn = DatabaseConnector.establishConnection();
 
@@ -29,7 +29,7 @@ public class ExhibitDetailController {
                 animal.age = set.getInt(4);
                 animal.livesIn = set.getString(5);
                 animalList.add(animal);
-                animal = new Animal();
+                animal = new Animal("", "", "", 0, "");
             }
         } catch (SQLException e) {
             e.printStackTrace();
