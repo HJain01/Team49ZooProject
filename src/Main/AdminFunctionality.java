@@ -88,6 +88,12 @@ public class AdminFunctionality {
             primaryStage.hide();
         });
 
+        viewAnimals.setOnAction(e -> {
+            ViewAnimals viewAnimalPage = new ViewAnimals();
+            primaryStage.getScene().setRoot(viewAnimalPage.getRootPane());
+            primaryStage.hide();
+        });
+
 
     }
 
