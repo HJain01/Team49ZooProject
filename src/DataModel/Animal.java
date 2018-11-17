@@ -7,6 +7,14 @@ public class Animal {
     public int age;
     public String livesIn;
 
+    public Animal(String name, String species, String type, int age, String livesIn) {
+        this.name = name;
+        this.species = species;
+        this.type = type;
+        this.age = age;
+        this.livesIn = livesIn;
+    }
+
     public String getName() {
         return name;
     }
