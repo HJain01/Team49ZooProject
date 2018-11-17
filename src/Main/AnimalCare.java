@@ -63,7 +63,7 @@ public class AnimalCare {
         Group rootType = new Group();
         rootType.getChildren().addAll(animalType);
         grid.add(rootType, 2, 3);
-        
+
         TextArea careLog = new TextArea();
         VBox vbox = new VBox(careLog);
         careLog.setWrapText(true);
