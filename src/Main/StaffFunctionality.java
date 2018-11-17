@@ -57,6 +57,12 @@ public class StaffFunctionality  {
 
         primaryStage.show();
 
+        searchAnimals.setOnAction(e -> {
+            StaffSearchForAnimals animals = new StaffSearchForAnimals();
+            primaryStage.getScene().setRoot(animals.getRootPane());
+            primaryStage.hide();
+        });
+
 
     }
 

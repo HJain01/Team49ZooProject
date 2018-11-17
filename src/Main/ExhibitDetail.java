@@ -24,8 +24,6 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-//this class is currently not being used and is not connected
-//to any of the other pages
 
 public class ExhibitDetail {
 
@@ -50,25 +48,21 @@ public class ExhibitDetail {
         grid.add(scenetitle, 0, 0, 8, 1);
 
         Label exhibitName = new Label("Name: " + name);
-        //add a getter for the animal name
         Group rootName = new Group();
         rootName.getChildren().addAll(exhibitName);
         grid.add(rootName, 0, 2);
 
         Label exhibitSize = new Label("Size: " + size);
-        //add getter method for size
         Group rootSize = new Group();
         rootSize.getChildren().addAll(exhibitSize);
         grid.add(rootSize, 2, 2);
 
         Label AnimalNum = new Label("Num of Animals: " + numAnimals);
-        //add getter method for number of animals
         Group rootNum = new Group();
         rootNum.getChildren().addAll(AnimalNum);
         grid.add(rootNum, 4, 2);
 
         Label water = new Label("Water Feature: " + waterFeature);
-        //add getter method for water feature
         Group rootWater = new Group();
         rootWater.getChildren().addAll(water);
         grid.add(rootWater, 6, 2);

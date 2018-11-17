@@ -103,6 +103,7 @@ public class StaffSearchForAnimals {
 
         primaryStage.show();
 
+
     }
 
     private Integer[] generator() {
