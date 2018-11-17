@@ -94,6 +94,12 @@ public class AdminFunctionality {
             primaryStage.hide();
         });
 
+        viewShows.setOnAction(e -> {
+            ViewShows viewShowPage = new ViewShows();
+            primaryStage.getScene().setRoot(viewShowPage.getRootPane());
+            primaryStage.hide();
+        });
+
 
     }
 
