@@ -100,6 +100,13 @@ public class AdminFunctionality {
             primaryStage.hide();
         });
 
+        viewStaff.setOnAction( e -> {
+            ViewStaff viewStaffPage = new ViewStaff();
+            primaryStage.getScene().setRoot(viewStaffPage.getRootPane());
+            primaryStage.hide();
+
+        });
+
 
     }
 
