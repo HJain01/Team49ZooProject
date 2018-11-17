@@ -107,6 +107,13 @@ public class AdminFunctionality {
 
         });
 
+        viewVisitors.setOnAction( e -> {
+            ViewVisitors viewVisitorsPage = new ViewVisitors();
+            primaryStage.getScene().setRoot(viewVisitorsPage.getRootPane());
+            primaryStage.hide();
+
+        });
+
 
     }
 
