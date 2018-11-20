@@ -1,6 +1,7 @@
 package Main;
 
 import Controllers.LoginController;
+import Controllers.SessionData;
 import DataModel.User;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -65,6 +66,8 @@ public class Login extends Application {
         SignIn.setOnAction(e -> {
             LoginController con = new LoginController();
             User user = con.loginUser(userTextField.getText(), pwBox.getText());
+            SessionData session = new SessionData();
+            session.user = user;
             if (user.email != null) {
                 if (user.type.toString().equals("VISITOR")) {
                     VisitorFunctionality visitorSignIn = new VisitorFunctionality();
@@ -88,6 +91,7 @@ public class Login extends Application {
                 alert.setContentText("You have entered the incorrect username/password.");
                 alert.showAndWait();
             }
+
         });
 
 
