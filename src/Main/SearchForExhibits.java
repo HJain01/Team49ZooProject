@@ -2,7 +2,6 @@ package Main;
 
 import Controllers.SearchForExhibitsController;
 import DataModel.Exhibit;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -162,12 +161,12 @@ public class SearchForExhibits  {
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String name = nameTextField.getText();
-                int minNum = (int) minNumber.getValue();
-                int maxNum = (int) maxNumber.getValue();
-                int minSize = (int) minSizeNumber.getValue();
-                int maxSize = (int) maxSizeNumber.getValue();
-                String water = (String) waterFeatureBox.getValue();
+                String name = null != nameTextField.getText() ? nameTextField.getText() : "";
+                int minNum = null != minNumber.getValue() ? (int) minNumber.getValue(): 0;
+                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue(): 0;
+                int minSize = null != minSizeNumber.getValue() ? (int) minSizeNumber.getValue(): 0;
+                int maxSize = null != maxSizeNumber.getValue() ? (int) maxSizeNumber.getValue(): 0;
+                String water = null != waterFeatureBox.getValue() ? (String) waterFeatureBox.getValue(): "";
                 SearchForExhibitsController controller = new SearchForExhibitsController();
                 ResultSet set = controller.searchButtonPressed(name, minNum, maxNum, water, minSize, maxSize);
                 ObservableList<Exhibit> data = FXCollections.observableArrayList();

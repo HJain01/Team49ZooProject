@@ -39,9 +39,12 @@ public class SearchForExhibitsController {
                 water=0;
             }
             String countSql = "SELECT COUNT(LivesIn) FROM Animal WHERE LivesIn=\"" + name + "\"";
-            String sql = "SELECT * FROM Exhibit WHERE Name=\"" + name + "\" AND Size>=" + minSize + " AND Size<=" + maxSize
-                    + " AND WaterFeature=" + water + " AND (" + countSql + ")>=" + minAnimals
-                    + " AND (" + countSql + ")<=" + maxAnimals;
+            String sql = "SELECT * FROM Exhibit WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
+                    + " AND (Size>=" + minSize + " OR " + minSize + " = 0)"
+                    + " AND (Size<=" + maxSize + " OR " + maxSize + " = 0)"
+                    + " AND (WaterFeature=" + water + " OR " + water + " = 0)"
+                    + " AND ((" + countSql + ") >= " + minAnimals + " OR " + minAnimals + " = 0)"
+                    + " AND ((" + countSql + ") <= " + maxAnimals + " OR " + maxAnimals + " = 0)";
             statement.execute(sql);
             set = statement.getResultSet();
         }catch (SQLException e) {
