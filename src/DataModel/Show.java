@@ -1,14 +1,12 @@
 package DataModel;
 
-import java.sql.Date;
-
 public class Show {
     public String name;
-    public Date date;
+    public String date;
     public String hostUsername;
     public String locatedIn;
 
-    public Show(String name, Date date, String hostUsername, String locatedIn) {
+    public Show(String name, String date, String hostUsername, String locatedIn) {
         this.name = name;
         this.date = date;
         this.hostUsername = hostUsername;
@@ -23,9 +21,9 @@ public class Show {
         this.name = name;
     }
 
-    public Date getDate() { return date; }
+    public String getDate() { return date; }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

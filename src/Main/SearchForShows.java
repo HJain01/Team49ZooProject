@@ -72,7 +72,7 @@ public class SearchForShows {
         try {
             while(set.next()) {
                 String showName = set.getString(1);
-                Date showDate = set.getDate(2);
+                String showDate = set.getString(2);
                 String hostUsername = set.getString(3);
                 String showExhibit = set.getString(4);
                 data.addAll(new Show(showName, showDate, hostUsername, showExhibit));
@@ -128,7 +128,7 @@ public class SearchForShows {
                 ObservableList<Show> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {
-                        data.addAll(new Show(set.getString(1), set.getDate(2),
+                        data.addAll(new Show(set.getString(1), set.getString(2),
                                 set.getString(3), set.getString(4)));                   }
                 } catch (SQLException e) {
                     e.printStackTrace();
