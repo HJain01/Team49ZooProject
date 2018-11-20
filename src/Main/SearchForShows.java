@@ -1,15 +1,29 @@
 package Main;
 
+import Controllers.SearchForShowsController;
+import DataModel.Show;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class SearchForShows {
@@ -52,12 +66,30 @@ public class SearchForShows {
         exhibitType.getItems().addAll("Pacific", "Jungle", "Sahara", "Mountainous", "Birds");
         grid.add(exhibitType, 1, 5);
 
+        ObservableList<Show> data = FXCollections.observableArrayList();
+        SearchForShowsController controller = new SearchForShowsController();
+        ResultSet set = controller.getShowInfo();
+        try {
+            while(set.next()) {
+                String showName = set.getString(1);
+                Date showDate = set.getDate(2);
+                String hostUsername = set.getString(3);
+                String showExhibit = set.getString(4);
+                data.addAll(new Show(showName, showDate, hostUsername, showExhibit));
+            }
+        }  catch(SQLException e) {
+            e.printStackTrace();
+        }
+
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<Show, String>("name"));
         TableColumn exhibitCol = new TableColumn("Exhibit");
+        exhibitCol.setCellValueFactory(new PropertyValueFactory<Show, String>("locatedIn"));
         TableColumn dateCol = new TableColumn("Date");
+        dateCol.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
 
-
+        table.setItems(data);
         table.getColumns().setAll(nameCol, exhibitCol, dateCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
@@ -84,6 +116,27 @@ public class SearchForShows {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String showName = null != nameTextField.getText() ? nameTextField.getText() : "";
+                String date = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
+                String exhibit = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
+                SearchForShowsController controller = new SearchForShowsController();
+                ResultSet set = controller.searchButtonPressed(showName, date, exhibit);
+                ObservableList<Show> data = FXCollections.observableArrayList();
+                try {
+                    while (set.next()) {
+                        data.addAll(new Show(set.getString(1), set.getDate(2),
+                                set.getString(3), set.getString(4)));                   }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                table.getItems().clear();
+                table.getItems().addAll(data);
+            }
+        });
 
     }
 
