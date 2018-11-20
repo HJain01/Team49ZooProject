@@ -14,9 +14,12 @@ public class SearchForAnimalsController {
         ResultSet set = null;
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM Animal WHERE Name=\"" + name + "\" AND Species=\"" + species
-                         + "\" AND Type=\"" + type + "\" AND Age>=" + minNum + " AND Age<=" + maxNum
-                         + " AND livesIn=\"" + livesIn + "\"";
+            String sql = "SELECT * FROM Animal WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
+                         + " AND (Species=\"" + species + "\" OR \"" + species + "\" = \"\")"
+                         + " AND (Type=\"" + type + "\" OR \"" + species + "\" = \"\")"
+                         + " AND (Age>=" + minNum + " OR " + minNum + " = 0)"
+                         + " AND (Age<=" + maxNum + " OR " + maxNum + " = 0)"
+                         + " AND (livesIn=\"" + livesIn + "\" OR \"" + livesIn + "\" = \"\")";
             statement.execute(sql);
             set = statement.getResultSet();
         } catch (SQLException e) {

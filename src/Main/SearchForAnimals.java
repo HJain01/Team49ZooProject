@@ -128,7 +128,7 @@ public class SearchForAnimals {
         typeCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
 
         table.setItems(data);
-        table.getColumns().setAll(nameCol, speciesCol, exhibitCol, ageCol, typeCol);
+        table.getColumns().setAll(nameCol, speciesCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -153,12 +153,12 @@ public class SearchForAnimals {
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String name = nameTextField.getText();
-                int minNum = (int) minNumber.getValue();
-                int maxNum = (int) maxNumber.getValue();
-                String type = (String) animalType.getValue();
-                String species = speciesTextField.getText();
-                String livesIn = (String) exhibitSearchBox.getValue();
+                String name = null != nameTextField.getText() ? nameTextField.getText() : "";
+                int minNum = null != minNumber.getValue() ? (int) minNumber.getValue() : 0;
+                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 0;
+                String type = null != animalType.getValue() ? (String) animalType.getValue() : "";
+                String species = null != speciesTextField.getText() ? speciesTextField.getText() : "";
+                String livesIn = null != exhibitSearchBox.getValue() ? (String) exhibitSearchBox.getValue() : "";
                 SearchForAnimalsController controller = new SearchForAnimalsController();
                 ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn);
                 ObservableList<Animal> data = FXCollections.observableArrayList();
