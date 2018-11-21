@@ -19,10 +19,9 @@ public class AdminFunctionality {
 
 
     public AdminFunctionality() {
+
         rootPane = new BorderPane();
-
         Stage primaryStage = new Stage();
-
         primaryStage.setTitle("Atlanta Zoo");
 
         GridPane grid = new GridPane();
@@ -110,6 +109,13 @@ public class AdminFunctionality {
         viewVisitors.setOnAction( e -> {
             ViewVisitors viewVisitorsPage = new ViewVisitors();
             primaryStage.getScene().setRoot(viewVisitorsPage.getRootPane());
+            primaryStage.hide();
+
+        });
+
+        logOut.setOnAction(e -> {
+            Login2 loginPage = new Login2();
+            primaryStage.getScene().setRoot(loginPage.getRootPane());
             primaryStage.hide();
 
         });

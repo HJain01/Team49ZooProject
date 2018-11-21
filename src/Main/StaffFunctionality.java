@@ -16,8 +16,7 @@ import javafx.stage.Stage;
 public class StaffFunctionality  {
 
     private final BorderPane rootPane;
-
-
+    
     public StaffFunctionality() {
 
         rootPane = new BorderPane();
@@ -67,6 +66,12 @@ public class StaffFunctionality  {
             primaryStage.hide();
         });
 
+        logOut.setOnAction(e -> {
+            Login2 loginPage = new Login2();
+            primaryStage.getScene().setRoot(loginPage.getRootPane());
+            primaryStage.hide();
+
+        });
 
     }
 

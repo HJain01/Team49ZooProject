@@ -98,6 +98,13 @@ public class VisitorFunctionality {
             primaryStage.hide();
         });
 
+        logOut.setOnAction(e -> {
+            Login2 loginPage = new Login2();
+            primaryStage.getScene().setRoot(loginPage.getRootPane());
+            primaryStage.hide();
+
+        });
+
         primaryStage.show();
     }
 
