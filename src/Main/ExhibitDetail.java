@@ -1,9 +1,14 @@
 package Main;
 
 import Controllers.ExhibitDetailController;
+import Controllers.ExhibitHistoryController;
+import Controllers.SessionData;
 import DataModel.Animal;
+import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -22,6 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -93,7 +99,7 @@ public class ExhibitDetail {
         typeColumn.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
 
 
-        table.getColumns().setAll(nameCol, speciesCol, ageColumn, livesInColumn, typeColumn);
+        table.getColumns().setAll(nameCol, speciesCol);
         table.setItems(data);
         table.setPrefWidth(450);
         table.setPrefHeight(250);
@@ -104,6 +110,18 @@ public class ExhibitDetail {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        LogVisit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                User user = SessionData.user;
+                String username = user.username;
+                String exhibitName = name;
+                String dateTime = LocalDateTime.now().toString();
+                ExhibitHistoryController controller = new ExhibitHistoryController();
+                controller.insertVisit(username, exhibitName, dateTime);
+            }
+        });
 
     }
 

@@ -1,5 +1,6 @@
 package Controllers;
 
+import DataModel.Exhibit;
 import database.DatabaseConnector;
 
 import java.sql.Connection;
@@ -40,5 +41,28 @@ public class SearchForAnimalsController {
             e.printStackTrace();
         }
         return set;
+    }
+
+    public Exhibit getExhibitInfo(String exhibitName) {
+        ResultSet set = null;
+        Exhibit exhibit = null;
+        SearchForExhibitsController controller = new SearchForExhibitsController();
+        Connection conn = DatabaseConnector.establishConnection();
+        try {
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM Exhibit WHERE Name=\"" + exhibitName + "\"";
+            statement.execute(sql);
+            set = statement.getResultSet();
+            while(set.next()) {
+                String name = set.getString(1);
+                int size = set.getInt(2);
+                boolean waterFeature = set.getBoolean(3);
+                int numAnimals = controller.getNumAnimals(name);
+                exhibit = new Exhibit(name, size, numAnimals, waterFeature);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exhibit;
     }
 }

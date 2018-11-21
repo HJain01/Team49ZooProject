@@ -2,6 +2,7 @@ package Main;
 
 import Controllers.SearchForAnimalsController;
 import DataModel.Animal;
+import DataModel.Exhibit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -109,8 +110,9 @@ public class SearchForAnimals {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Animal rowData = row.getItem();
-                    AnimalDetail animalDetail = new AnimalDetail(rowData.name, rowData.species, rowData.type, rowData.age, rowData.livesIn);
-                    primaryStage.getScene().setRoot(animalDetail.getRootPane());
+                    Exhibit exhibitInfo = controller.getExhibitInfo(rowData.livesIn);
+                    ExhibitDetail exhibitDetail = new ExhibitDetail(exhibitInfo.name, exhibitInfo.size,exhibitInfo.numAnimals, exhibitInfo.waterFeature);
+                    primaryStage.getScene().setRoot(exhibitDetail.getRootPane());
                     primaryStage.hide();
                 }
             });
@@ -128,7 +130,7 @@ public class SearchForAnimals {
         typeCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
 
         table.setItems(data);
-        table.getColumns().setAll(nameCol, speciesCol);
+        table.getColumns().setAll(nameCol, speciesCol, exhibitCol, ageCol, typeCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
