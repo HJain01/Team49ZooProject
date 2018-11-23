@@ -1,6 +1,7 @@
 package Main;
 
 import Controllers.SearchForAnimalsController;
+import Controllers.ViewAnimalsController;
 import DataModel.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -163,6 +164,18 @@ public class ViewAnimals {
                 table.getItems().clear();
                 table.getItems().addAll(data);
 
+            }
+        });
+
+        removeAnimalButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<Animal> list = table.getSelectionModel().getSelectedItems();
+                if (list.size() == 1) {
+                    ViewAnimalsController controller = new ViewAnimalsController();
+                    controller.removeAnimal(list.get(0).name, list.get(0).species);
+                    table.getItems().remove(list.get(0));
+                }
             }
         });
     }
