@@ -50,7 +50,7 @@ public class AddAnimal {
         Label type = new Label("Type:");
         grid.add(type, 0, 4);
         final ComboBox animalType = new ComboBox();
-        animalType.getItems().addAll("Fish", "Amphibian", "Mammal", "Bird");
+        animalType.getItems().addAll("Reptile", "Invertebrate", "Fish", "Amphibian", "Mammal", "Bird");
         grid.add(animalType, 1, 4);
 
         Label species = new Label("Species:");

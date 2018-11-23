@@ -1,15 +1,25 @@
 package Main;
 
+import Controllers.SearchForAnimalsController;
+import DataModel.Animal;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class ViewAnimals {
@@ -21,6 +31,21 @@ public class ViewAnimals {
     public ViewAnimals() {
 
         rootPane = new BorderPane();
+        ObservableList<Animal> data = FXCollections.observableArrayList();
+        SearchForAnimalsController controller = new SearchForAnimalsController();
+        ResultSet set = controller.getAnimalInfo();
+        try {
+            while(set.next()) {
+                String name = set.getString(1);
+                String species = set.getString(2);
+                String type = set.getString(3);
+                int age = set.getInt(4);
+                String livesIn = set.getString(5);
+                data.addAll(new Animal(name, species, type, age, livesIn));
+            }
+        }  catch(SQLException e) {
+            e.printStackTrace();
+        }
 
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Atlanta Zoo");
@@ -66,7 +91,7 @@ public class ViewAnimals {
         Label type = new Label("Type:");
         grid.add(type, 4, 5);
         final ComboBox animalType = new ComboBox();
-        animalType.getItems().addAll("Fish", "Mammal", "Amphibian", "Bird");
+        animalType.getItems().addAll("Reptile", "Invertebrate", "Fish", "Mammal", "Amphibian", "Bird");
         grid.add(animalType, 5, 5);
 
         Label waterFeature = new Label("Species: ");
@@ -76,11 +101,17 @@ public class ViewAnimals {
 
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("name"));
         TableColumn speciesCol = new TableColumn("Species");
+        speciesCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("species"));
         TableColumn exhibitCol = new TableColumn("Exhibit");
+        exhibitCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("livesIn"));
         TableColumn ageCol = new TableColumn("Age");
+        ageCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("age"));
         TableColumn typeCol = new TableColumn("Type");
+        typeCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
 
+        table.setItems(data);
         table.getColumns().setAll(nameCol, speciesCol, exhibitCol, ageCol, typeCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
@@ -109,7 +140,31 @@ public class ViewAnimals {
 
         primaryStage.show();
 
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String name = null != nameTextField.getText() ? nameTextField.getText() : "";
+                int minNum = null != minNumber.getValue() ? (int) minNumber.getValue() : 0;
+                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 0;
+                String type = null != animalType.getValue() ? (String) animalType.getValue() : "";
+                String species = null != speciesTextField.getText() ? speciesTextField.getText() : "";
+                String livesIn = null != exhibitSearchBox.getValue() ? (String) exhibitSearchBox.getValue() : "";
+                SearchForAnimalsController controller = new SearchForAnimalsController();
+                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn);
+                ObservableList<Animal> data = FXCollections.observableArrayList();
+                try {
+                    while (set.next()) {
+                        data.addAll(new Animal(set.getString(1), set.getString(2),
+                                set.getString(3), set.getInt(4), set.getString(5)));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                table.getItems().clear();
+                table.getItems().addAll(data);
 
+            }
+        });
     }
 
     private Integer[] generator() {

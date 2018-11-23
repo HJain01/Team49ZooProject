@@ -18,7 +18,7 @@ public class SearchForAnimalsController {
             Statement statement = conn.createStatement();
             String sql = "SELECT * FROM Animal WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
                          + " AND (Species=\"" + species + "\" OR \"" + species + "\" = \"\")"
-                         + " AND (Type=\"" + type + "\" OR \"" + species + "\" = \"\")"
+                         + " AND (Type=\"" + type + "\" OR \"" + type + "\" = \"\")"
                          + " AND (Age>=" + minNum + " OR " + minNum + " = 0)"
                          + " AND (Age<=" + maxNum + " OR " + maxNum + " = 0)"
                          + " AND (livesIn=\"" + livesIn + "\" OR \"" + livesIn + "\" = \"\")";

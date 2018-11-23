@@ -95,7 +95,7 @@ public class SearchForAnimals {
         Label type = new Label("Type:");
         grid.add(type, 4, 5);
         final ComboBox animalType = new ComboBox();
-        animalType.getItems().addAll("Fish", "Mammal", "Amphibian", "Bird");
+        animalType.getItems().addAll("Reptile", "Invertebrate", "Fish", "Mammal", "Amphibian", "Bird");
         grid.add(animalType, 5, 5);
 
         Label waterFeature = new Label("Species: ");
