@@ -25,7 +25,7 @@ public class ExhibitHistoryController {
                 String visitorUsername = set.getString(1);
                 String exhibitName = set.getString(2);
                 String dateAndTime = set.getString(3);
-                int numOfVisits = getNumOfVisits(visitorUsername);
+                int numOfVisits = getNumOfVisits(visitorUsername, exhibitName);
                 visitExhibit = new VisitExhibit(visitorUsername, exhibitName, dateAndTime, numOfVisits);
                 list.add(visitExhibit);
             }
@@ -35,13 +35,14 @@ public class ExhibitHistoryController {
         return list;
     }
 
-    public int getNumOfVisits(String username) {
+    public int getNumOfVisits(String username, String exhibitName) {
         ResultSet set;
         int numOfVisits = 0;
         Connection conn = DatabaseConnector.establishConnection();
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT COUNT(VisitorUsername) FROM VisitExhibit WHERE VisitorUsername=\"" + username + "\"";
+            String sql = "SELECT COUNT(VisitorUsername) FROM VisitExhibit WHERE VisitorUsername=\"" + username + "\""
+                         + " AND ExhibitName=\"" + exhibitName + "\"";
             statement.execute(sql);
             set = statement.getResultSet();
             while(set.next()) {
@@ -68,7 +69,7 @@ public class ExhibitHistoryController {
     public List<VisitExhibit> searchButtonPressed(String username, String name, String time, int minNum, int maxNum) {
         List<VisitExhibit> list = new ArrayList<>();
         VisitExhibit exhibitHistory;
-        int numOfVisits = getNumOfVisits(username);
+        int numOfVisits = getNumOfVisits(username, name);
         ResultSet set;
         Connection conn = DatabaseConnector.establishConnection();
         try {
@@ -83,7 +84,7 @@ public class ExhibitHistoryController {
             while(set.next()) {
                 String exhibitName = set.getString(2);
                 String dateTime = set.getString(3);
-                int numVisits = getNumOfVisits(set.getString(1));
+                int numVisits = getNumOfVisits(set.getString(1), exhibitName);
                 exhibitHistory = new VisitExhibit(username, exhibitName, dateTime, numVisits);
                 list.add(exhibitHistory);
             }

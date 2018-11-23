@@ -1,7 +1,9 @@
 package Main;
 
-import Controllers.SearchForShowsController;
+import Controllers.*;
+import DataModel.Exhibit;
 import DataModel.Show;
+import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 
 public class SearchForShows {
@@ -35,6 +38,7 @@ public class SearchForShows {
     public SearchForShows() {
 
         rootPane = new BorderPane();
+        User user = SessionData.user;
 
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Atlanta Zoo");
@@ -82,6 +86,7 @@ public class SearchForShows {
         }
 
         table = new TableView<>();
+
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Show, String>("name"));
         TableColumn exhibitCol = new TableColumn("Exhibit");
@@ -117,6 +122,43 @@ public class SearchForShows {
 
         primaryStage.show();
 
+        table.setRowFactory(tv -> {
+            TableRow<Show> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                Show rowData = row.getItem();
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    SearchForAnimalsController controller1 = new SearchForAnimalsController();
+                    Exhibit exhibitInfo = controller1.getExhibitInfo(rowData.locatedIn);
+                    ExhibitDetail exhibitDetail = new ExhibitDetail(exhibitInfo.name, exhibitInfo.size,exhibitInfo.numAnimals, exhibitInfo.waterFeature);
+                    primaryStage.getScene().setRoot(exhibitDetail.getRootPane());
+                    primaryStage.hide();
+                }
+            });
+            return row ;
+        });
+        logButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<Show> list = table.getSelectionModel().getSelectedItems();
+                if (list.size() == 1) {
+                    ShowHistoryController showHistoryController = new ShowHistoryController();
+                    ExhibitHistoryController exhibitHistoryController = new ExhibitHistoryController();
+                    String username = user.username;
+                    String showName = list.get(0).name;
+                    String exhibitName = list.get(0).locatedIn;
+//                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm:ss.S");
+                    String nowStr = LocalDateTime.now().toString();
+                    String showTimeStr = list.get(0).date;
+//                    LocalDateTime now =  LocalDateTime.parse(nowStr, dateFormat);
+//                    LocalDateTime showTime = LocalDateTime.parse(showTimeStr, dateFormat);
+                    if (showTimeStr.compareTo(nowStr) == -1) {
+                        showHistoryController.insertVisit(username, showName, nowStr);
+                        exhibitHistoryController.insertVisit(username, exhibitName, nowStr);
+                    }
+                }
+            }
+        });
+
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -137,7 +179,6 @@ public class SearchForShows {
                 table.getItems().addAll(data);
             }
         });
-
     }
 
 

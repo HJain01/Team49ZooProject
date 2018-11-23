@@ -1,7 +1,9 @@
 package Main;
 
 import Controllers.ExhibitHistoryController;
+import Controllers.SearchForAnimalsController;
 import Controllers.SessionData;
+import DataModel.Exhibit;
 import DataModel.User;
 import DataModel.VisitExhibit;
 import javafx.collections.FXCollections;
@@ -78,6 +80,20 @@ public class ExhibitHistory {
         grid.add(maxNumber, 6, 2);
 
         table = new TableView<>();
+        table.setRowFactory(tv -> {
+            TableRow<VisitExhibit> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    VisitExhibit rowData = row.getItem();
+                    SearchForAnimalsController controller = new SearchForAnimalsController();
+                    Exhibit exhibitInfo = controller.getExhibitInfo(rowData.exhibitName);
+                    ExhibitDetail exhibitDetail = new ExhibitDetail(exhibitInfo.name, exhibitInfo.size,exhibitInfo.numAnimals, exhibitInfo.waterFeature);
+                    primaryStage.getScene().setRoot(exhibitDetail.getRootPane());
+                    primaryStage.hide();
+                }
+            });
+            return row ;
+        });
 
         ObservableList<VisitExhibit> data = FXCollections.observableArrayList();
         ExhibitHistoryController controller = new ExhibitHistoryController();

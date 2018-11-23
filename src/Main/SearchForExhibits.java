@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import static javafx.application.Application.launch;
 
@@ -45,11 +46,11 @@ public class SearchForExhibits  {
         ResultSet set = controller.getExhibitInfo();
         try {
             while (set.next()) {
-                int numAnimals = controller.getNumAnimals(set.getString(1));
+                HashMap<String, Integer> numAnimals = controller.getNumAnimals();
                 String name = set.getString(1);
                 int size = set.getInt(2);
                 boolean waterFeature = set.getBoolean(3);
-                data.addAll(new Exhibit(name, size, numAnimals, waterFeature));
+                data.addAll(new Exhibit(name, size, numAnimals.get(name), waterFeature));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,7 +164,7 @@ public class SearchForExhibits  {
             public void handle(ActionEvent event) {
                 String name = null != nameTextField.getText() ? nameTextField.getText() : "";
                 int minNum = null != minNumber.getValue() ? (int) minNumber.getValue(): 0;
-                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue(): 0;
+                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue(): 99;
                 int minSize = null != minSizeNumber.getValue() ? (int) minSizeNumber.getValue(): 0;
                 int maxSize = null != maxSizeNumber.getValue() ? (int) maxSizeNumber.getValue(): 0;
                 String water = null != waterFeatureBox.getValue() ? (String) waterFeatureBox.getValue(): "";
@@ -172,8 +173,10 @@ public class SearchForExhibits  {
                 ObservableList<Exhibit> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {
-                        int numAnimals = controller.getNumAnimals(set.getString(1));
-                        data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals, set.getBoolean(3)));
+                        HashMap<String, Integer> numAnimals = controller.getNumAnimals();
+                        if (numAnimals.get(set.getString(1)) >= minNum && numAnimals.get(set.getString(1)) <= maxNum) {
+                            data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals.get(set.getString(1)), set.getBoolean(3)));
+                        }
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

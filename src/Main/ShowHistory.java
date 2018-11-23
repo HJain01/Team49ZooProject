@@ -1,15 +1,30 @@
 package Main;
 
+import Controllers.SessionData;
+import Controllers.ShowHistoryController;
+import DataModel.User;
+import DataModel.VisitShow;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.Date;
+import java.util.List;
 
 
 public class ShowHistory {
@@ -21,6 +36,14 @@ public class ShowHistory {
     public ShowHistory() {
 
         rootPane = new BorderPane();
+        User user = SessionData.user;
+        ObservableList<VisitShow> data = FXCollections.observableArrayList();
+        ShowHistoryController controller = new ShowHistoryController();
+        List<VisitShow> list = controller.getShowHistory(user.username);
+        while (!list.isEmpty()) {
+            data.addAll(list.get(0));
+            list.remove(0);
+        }
 
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Atlanta Zoo");
@@ -53,9 +76,13 @@ public class ShowHistory {
 
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
-        TableColumn exhibitCol = new TableColumn("Time");
-        TableColumn dateCol = new TableColumn("Exhibit");
+        nameCol.setCellValueFactory(new PropertyValueFactory<VisitShow, String>("showName"));
+        TableColumn dateCol = new TableColumn("Time");
+        dateCol.setCellValueFactory(new PropertyValueFactory<VisitShow, String>("showTime"));
+        TableColumn exhibitCol = new TableColumn("Exhibit");
+        exhibitCol.setCellValueFactory(new PropertyValueFactory<VisitShow, String>("exhibitName"));
 
+        table.setItems(data);
         table.getColumns().setAll(nameCol, exhibitCol, dateCol);
         table.setPrefWidth(400);
         table.setPrefHeight(200);
@@ -75,6 +102,24 @@ public class ShowHistory {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ShowHistoryController controller = new ShowHistoryController();
+                ObservableList<VisitShow> data = FXCollections.observableArrayList();
+                String showName = null != nameTextField.getText() ? nameTextField.getText() : "";
+                String exhibitName = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
+                String time = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
+                List<VisitShow> list = controller.searchButtonPressed(user.username, showName, time, exhibitName);
+                while(!list.isEmpty()) {
+                    data.addAll(list.get(0));
+                    list.remove(0);
+                }
+                table.getItems().clear();
+                table.setItems(data);
+            }
+        });
 
     }
 

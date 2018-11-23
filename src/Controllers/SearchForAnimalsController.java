@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 public class SearchForAnimalsController {
     public ResultSet searchButtonPressed(String name, String species, String type,
@@ -57,8 +58,8 @@ public class SearchForAnimalsController {
                 String name = set.getString(1);
                 int size = set.getInt(2);
                 boolean waterFeature = set.getBoolean(3);
-                int numAnimals = controller.getNumAnimals(name);
-                exhibit = new Exhibit(name, size, numAnimals, waterFeature);
+                HashMap<String, Integer> numAnimals = controller.getNumAnimals();
+                exhibit = new Exhibit(name, size, numAnimals.get(numAnimals.get(name)), waterFeature);
             }
         } catch (SQLException e) {
             e.printStackTrace();
