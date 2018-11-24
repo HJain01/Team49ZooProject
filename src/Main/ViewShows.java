@@ -1,6 +1,7 @@
 package Main;
 
 import Controllers.SearchForShowsController;
+import Controllers.ViewShowsController;
 import DataModel.Show;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -131,6 +132,18 @@ public class ViewShows {
                 }
                 table.getItems().clear();
                 table.getItems().addAll(data);
+            }
+        });
+
+        removeShowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<Show> list = table.getSelectionModel().getSelectedItems();
+                if(list.size() == 1) {
+                    ViewShowsController controller = new ViewShowsController();
+                    controller.removeShows(list.get(0).name, list.get(0).date, list.get(0).locatedIn);
+                    table.getItems().remove(list.get(0));
+                }
             }
         });
 
