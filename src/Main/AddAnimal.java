@@ -1,5 +1,8 @@
 package Main;
 
+import Controllers.AddAnimalController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -77,6 +80,22 @@ public class AddAnimal {
 
         primaryStage.show();
 
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String name = nameTextField.getText();
+                String exhibit = exhibitType.getValue().toString();
+                String type = animalType.getValue().toString();
+                String species = speciesField.getText();
+                int age = Integer.valueOf(ageNum.getValue().toString()).intValue();
+
+                AddAnimalController controller = new AddAnimalController();
+                controller.add(name, exhibit, type, species, age);
+
+                nameTextField.clear();
+                speciesField.clear();
+            }
+        });
     }
 
     private Integer[] ageGenerator() {
