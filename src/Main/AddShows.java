@@ -1,5 +1,12 @@
 package Main;
 
+import Controllers.AddShowsController;
+import Controllers.ViewStaffController;
+import DataModel.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -10,6 +17,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 
 public class AddShows {
@@ -47,10 +58,32 @@ public class AddShows {
         exhibitType.getItems().addAll("Pacific", "Jungle", "Sahara", "Mountainous", "Birds");
         grid.add(exhibitType, 1, 3);
 
+        ViewStaffController otherContoller = new ViewStaffController();
+        ObservableList<User> data = FXCollections.observableArrayList();
+        ResultSet set = otherContoller.getAllStaff();
+        try{
+            while(set.next()){
+                String username = set.getString(1);
+                String email = set.getString(2);
+                String password = set.getString(3);
+                String type = set.getString(4);
+                User.Type realType = User.stringToType(type);
+                data.addAll(new User(username, email, password, realType));
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getErrorCode());
+        }
+        ObservableList<String> list= FXCollections.observableArrayList();
+
         Label staff = new Label("Staff:");
         grid.add(staff, 0, 4);
         final ComboBox staffList = new ComboBox();
-        staffList.getItems().addAll("Martha", "Benjamin", "Ethan");
+        //staffList.getItems().addAll("Martha", "Benjamin", "Ethan");
+
+        data.forEach((user) -> {staffList.getItems().add(user.username);});
+
+        //staffList.getItems().add();
         grid.add(staffList, 1, 4);
 
         Label date = new Label("Date:");
@@ -75,6 +108,41 @@ public class AddShows {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String date = datePicker.getValue().toString();
+                String time = timeTextField.getText();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String test = "invalid";
+                String dateTime = "";
+                try{
+                    test = simpleDateFormat.parse(date + " " + time).toString();
+                    dateTime = date + " " + time;
+
+                } catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+                AddShowsController controller = new AddShowsController();
+                String othertest = staffList.getValue().toString();
+                ResultSet testing = controller.checkForShowsAtTheSameTime(staffList.getValue().toString(), dateTime);
+                int count = -1;
+                try{
+                    while(testing.next()){
+                        count = Integer.parseInt(testing.getString(1));
+                    }
+                } catch(SQLException e){
+                    System.out.println(e.getErrorCode());
+                }
+                if(count <= 0)
+                {
+                    //add the damn show
+                    controller.addAShow(nameTextField.getText(), exhibitType.getValue().toString(), othertest, dateTime);
+                    nameTextField.clear();
+                }
+            }
+        });
 
     }
 
