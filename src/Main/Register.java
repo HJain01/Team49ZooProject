@@ -19,6 +19,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.regex.Pattern;
+
 public class Register  {
     private final BorderPane rootPane;
 
@@ -86,9 +88,12 @@ public class Register  {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
-                    RegistrationController controller = new RegistrationController();
-                    controller.registerVisitor(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                String regex = "^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$";
+                if (Pattern.matches(regex, emailTextField.getText())) {
+                    if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
+                        RegistrationController controller = new RegistrationController();
+                        controller.registerVisitor(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                    }
                 }
             }
         });
