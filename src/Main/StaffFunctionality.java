@@ -1,5 +1,6 @@
 package Main;
 
+import Controllers.SessionData;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -68,6 +69,7 @@ public class StaffFunctionality  {
 
         logOut.setOnAction(e -> {
             Login2 loginPage = new Login2();
+            SessionData.user = null;
             primaryStage.getScene().setRoot(loginPage.getRootPane());
             primaryStage.hide();
 
