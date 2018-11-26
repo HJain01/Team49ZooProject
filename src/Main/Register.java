@@ -1,15 +1,13 @@
 package Main;
 
 import Controllers.RegistrationController;
+import Controllers.SessionData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -92,7 +90,14 @@ public class Register  {
                 if (Pattern.matches(regex, emailTextField.getText())) {
                     if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
                         RegistrationController controller = new RegistrationController();
-                        controller.registerVisitor(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                        SessionData.user = controller.registerVisitor(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                        if (null == SessionData.user.username) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Incorrect Information");
+                            alert.setHeaderText(null);
+                            alert.setContentText("That username or email is already in our system.");
+                            alert.showAndWait();
+                        }
                     }
                 }
             }
@@ -103,7 +108,14 @@ public class Register  {
             public void handle(ActionEvent event) {
                 if (pwTextBox.getText().equals(pwConfirmBox.getText()) && pwTextBox.getText().length() >= 8) {
                     RegistrationController controller = new RegistrationController();
-                    controller.registerStaff(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                    SessionData.user = controller.registerStaff(userNameBox.getText(), pwTextBox.getText(), emailTextField.getText());
+                    if (null == SessionData.user.username) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Incorrect Information");
+                        alert.setHeaderText(null);
+                        alert.setContentText("That username or email is already in our system.");
+                        alert.showAndWait();
+                    }
                 }
             }
         });
