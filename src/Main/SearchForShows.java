@@ -120,6 +120,15 @@ public class SearchForShows {
         Scene scene = new Scene(root,580, 500);
         primaryStage.setScene(scene);
 
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+            primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
         primaryStage.show();
 
         table.setRowFactory(tv -> {
