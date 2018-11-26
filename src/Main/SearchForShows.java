@@ -117,7 +117,7 @@ public class SearchForShows {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,580, 500);
+        Scene scene = new Scene(root,600, 500);
         primaryStage.setScene(scene);
 
         Hyperlink previousLink = new Hyperlink();

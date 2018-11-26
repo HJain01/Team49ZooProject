@@ -13,10 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -105,6 +102,15 @@ public class ExhibitDetail {
         table.setPrefHeight(250);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         grid.add(table, 0, 6, 8, 8);
+
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            SearchForExhibits exhibitsPage = new SearchForExhibits();
+            primaryStage.getScene().setRoot(exhibitsPage.getRootPane());
+            primaryStage.hide();
+        });
 
         Scene scene = new Scene(grid,580, 500);
         primaryStage.setScene(scene);

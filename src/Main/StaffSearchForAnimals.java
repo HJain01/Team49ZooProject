@@ -27,7 +27,6 @@ public class StaffSearchForAnimals {
     private TableView table;
     public final BorderPane rootPane;
 
-
     public StaffSearchForAnimals() {
 
         rootPane = new BorderPane();
@@ -115,7 +114,6 @@ public class StaffSearchForAnimals {
             return row;
         });
 
-
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("name"));
 
@@ -149,7 +147,16 @@ public class StaffSearchForAnimals {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,580, 500);
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            StaffFunctionality staffSignIn = new StaffFunctionality();
+            primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
+        Scene scene = new Scene(root,600, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();
@@ -179,7 +186,6 @@ public class StaffSearchForAnimals {
 
             }
         });
-
     }
 
     private Integer[] generator() {

@@ -114,7 +114,7 @@ public class ExhibitHistory {
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        grid.add(table, 0, 7, 7, 7);
+        grid.add(table, 0, 7, 7, 8);
 
         Button searchButton = new Button("Search");
         HBox searchBox = new HBox(10);
@@ -125,7 +125,16 @@ public class ExhibitHistory {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,580, 500);
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+            primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
+        Scene scene = new Scene(root,600, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();

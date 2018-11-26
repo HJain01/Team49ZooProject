@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class StaffFunctionality  {
 
     private final BorderPane rootPane;
-    
+
     public StaffFunctionality() {
 
         rootPane = new BorderPane();
