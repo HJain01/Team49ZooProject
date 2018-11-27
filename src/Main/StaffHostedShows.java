@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -83,6 +84,15 @@ public class StaffHostedShows {
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         grid.add(table, 0, 2);
+
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 10);
+        previousLink.setOnAction(e -> {
+            StaffFunctionality staffSignIn = new StaffFunctionality();
+            primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+            primaryStage.hide();
+        });
 
         Scene scene = new Scene(grid, 500, 400);
         primaryStage.setScene(scene);

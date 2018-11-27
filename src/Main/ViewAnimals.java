@@ -124,7 +124,6 @@ public class ViewAnimals {
         searchBox.getChildren().add(searchButton);
         grid.add(searchBox, 3, 6);
 
-
         grid.add(table, 0, 7, 7, 7);
 
         Button removeAnimalButton = new Button("Remove Animal");
@@ -136,7 +135,16 @@ public class ViewAnimals {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,600, 500);
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            AdminFunctionality adminSignIn = new AdminFunctionality();
+            primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
+        Scene scene = new Scene(root,650, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();

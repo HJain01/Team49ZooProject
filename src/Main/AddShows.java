@@ -104,7 +104,18 @@ public class AddShows {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,400, 300);
+
+
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 10);
+        previousLink.setOnAction(e -> {
+            AdminFunctionality adminSignIn = new AdminFunctionality();
+            primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+            primaryStage.hide();
+        });
+
+        Scene scene = new Scene(root,400, 320);
         primaryStage.setScene(scene);
 
         primaryStage.show();
