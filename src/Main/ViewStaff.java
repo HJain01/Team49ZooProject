@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -79,6 +80,15 @@ public class ViewStaff {
         HBox deleteBox = new HBox(10);
         deleteBox.getChildren().add(deleteStaff);
         grid.add(deleteBox, 0, 4);
+
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 10);
+        previousLink.setOnAction(e -> {
+            AdminFunctionality adminSignIn = new AdminFunctionality();
+            primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+            primaryStage.hide();
+        });
 
         Scene scene = new Scene(grid, 500, 400);
         primaryStage.setScene(scene);

@@ -117,6 +117,15 @@ public class ExhibitDetail {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         grid.add(table, 0, 6, 8, 8);
 
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            SearchForExhibits exhibitsPage = new SearchForExhibits();
+            primaryStage.getScene().setRoot(exhibitsPage.getRootPane());
+            primaryStage.hide();
+        });
+
         Scene scene = new Scene(grid,580, 500);
         primaryStage.setScene(scene);
 
