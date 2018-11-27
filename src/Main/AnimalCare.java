@@ -129,6 +129,15 @@ public class AnimalCare {
         Scene scene = new Scene(grid, 500, 400);
         primaryStage.setScene(scene);
 
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            StaffSearchForAnimals animalSearch = new StaffSearchForAnimals();
+            primaryStage.getScene().setRoot(animalSearch.getRootPane());
+            primaryStage.hide();
+        });
+
 
         primaryStage.show();
 
