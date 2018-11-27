@@ -26,7 +26,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -132,17 +133,25 @@ public class ExhibitHistory {
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                List<VisitExhibit> list = new ArrayList<>();
                 ObservableList<VisitExhibit> data = FXCollections.observableArrayList();
                 String name = null != nameTextField.getText() ? nameTextField.getText() : "";
                 String time = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
                 int minNum = null != minNumber.getValue() ? (int) minNumber.getValue() : 0;
-                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 0;
+                int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 99;
                 ExhibitHistoryController controller = new ExhibitHistoryController();
-                list = controller.searchButtonPressed(user.username, name, time, minNum, maxNum);
-                while(!list.isEmpty()) {
-                    data.addAll(list.get(0));
-                    list.remove(0);
+                ResultSet set = controller.searchButtonPressed(user.username, name, time);
+                try {
+                    while(set.next()) {
+                        String exhibitName = set.getString(2);
+                        String dateTime = set.getString(3);
+                        int numVisits = controller.getNumOfVisits(set.getString(1), exhibitName);
+                        if (minNum <= numVisits && maxNum >= numVisits) {
+                            VisitExhibit exhibitHistory = new VisitExhibit(user.username, exhibitName, dateTime, numVisits);
+                            data.addAll(exhibitHistory);
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 table.getItems().clear();
                 table.setItems(data);

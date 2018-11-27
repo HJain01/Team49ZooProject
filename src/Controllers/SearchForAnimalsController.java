@@ -45,8 +45,8 @@ public class SearchForAnimalsController {
     }
 
     public Exhibit getExhibitInfo(String exhibitName) {
-        ResultSet set = null;
-        Exhibit exhibit = null;
+        ResultSet set;
+        Exhibit exhibit = new Exhibit("", 0, 0, true);
         SearchForExhibitsController controller = new SearchForExhibitsController();
         Connection conn = DatabaseConnector.establishConnection();
         try {
@@ -59,7 +59,7 @@ public class SearchForAnimalsController {
                 int size = set.getInt(2);
                 boolean waterFeature = set.getBoolean(3);
                 HashMap<String, Integer> numAnimals = controller.getNumAnimals();
-                exhibit = new Exhibit(name, size, numAnimals.get(numAnimals.get(name)), waterFeature);
+                exhibit = new Exhibit(name, size, numAnimals.get(name), waterFeature);
             }
         } catch (SQLException e) {
             e.printStackTrace();

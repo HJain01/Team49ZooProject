@@ -36,4 +36,27 @@ public class ExhibitDetailController {
         }
         return animalList;
     }
+
+    public Animal getAnimal(String name) {
+        Connection conn = DatabaseConnector.establishConnection();
+        ResultSet set;
+        Animal animal = new Animal("","","",0,"");
+        try {
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM Animal WHERE Name=\"" + name + "\"";
+            statement.execute(sql);
+            set = statement.getResultSet();
+            while(set.next()) {
+                String animalName = set.getString(1);
+                String species = set.getString(2);
+                String type = set.getString(3);
+                int age = set.getInt(4);
+                String livesIn = set.getString(5);
+                animal = new Animal(animalName, species, type, age, livesIn);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return animal;
+    }
 }

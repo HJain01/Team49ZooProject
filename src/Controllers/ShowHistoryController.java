@@ -63,7 +63,7 @@ public class ShowHistoryController {
         try {
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO VisitShow " +
-                    "VALUES(\"" + username + "\", \"" + showName + "\", \"" + dateTime + "\")";
+                    "VALUES(\"" + username + "\", \"" + showName + "\", \'" + dateTime + "\')";
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();

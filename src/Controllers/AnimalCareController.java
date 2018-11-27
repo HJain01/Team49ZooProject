@@ -17,7 +17,7 @@ public class AnimalCareController {
         try
         {
             Statement statement = conn.createStatement();
-            String sql = "Select * from Note WHERE AnimalName = \"" + animalName + "\" AND Species = \"" + species +"\"";
+            String sql = "Select * from Note WHERE AnimalName = \"" + animalName + "\" AND NoteSpecies = \"" + species +"\"";
             statement.execute(sql);
             returnSet = statement.getResultSet();
         }catch(SQLException e)
@@ -32,7 +32,7 @@ public class AnimalCareController {
         try
         {
             Statement statement = conn.createStatement();
-            String sql = "INSERT INTO Note (StaffUsername, AnimalName, Species, LogTime, Text) " +
+            String sql = "INSERT INTO Note (StaffUsername, AnimalName, NoteSpecies, LogTime, Text) " +
                     "VALUES (\""+note.staffUsername +"\",\""+note.animalName+"\",\"" + note.species + "\",'"
                     + LocalDateTime.now().toString() + "',\"" + note.text + "\")";
             statement.execute(sql);

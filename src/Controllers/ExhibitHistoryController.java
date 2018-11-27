@@ -59,38 +59,29 @@ public class ExhibitHistoryController {
         try {
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO VisitExhibit " +
-                         "VALUES(\"" + username + "\", \"" + exhibitName + "\", \"" + dateTime + "\")";
+                         "VALUES(\"" + username + "\", \"" + exhibitName + "\", \'" + dateTime + "\')";
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<VisitExhibit> searchButtonPressed(String username, String name, String time, int minNum, int maxNum) {
-        List<VisitExhibit> list = new ArrayList<>();
-        VisitExhibit exhibitHistory;
+    public ResultSet searchButtonPressed(String username, String name, String time) {
         int numOfVisits = getNumOfVisits(username, name);
-        ResultSet set;
+        ResultSet set = null;
         Connection conn = DatabaseConnector.establishConnection();
         try {
             Statement statement = conn.createStatement();
             String sql = "SELECT * FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
                          + " AND (exhibitName=\"" + name + "\" OR \"" + name + "\"=\"\")"
-                         + " AND (DateAndTime LIKE \"" + time + "%\" OR \"" + time + "\"=\"\")"
-                         + " AND (" + numOfVisits + ">=" + minNum + " OR " + minNum + "=0)"
-                         + " AND (" + numOfVisits + "<=" + maxNum + " OR " + maxNum + "=0)";
+                         + " AND (DateAndTime LIKE \"" + time + "%\" OR \"" + time + "\"=\"\")";
+//                         + " AND (" + numOfVisits + ">=" + minNum + " OR " + minNum + "=0)"
+//                         + " AND (" + numOfVisits + "<=" + maxNum + " OR " + maxNum + "=0)";
             statement.execute(sql);
             set = statement.getResultSet();
-            while(set.next()) {
-                String exhibitName = set.getString(2);
-                String dateTime = set.getString(3);
-                int numVisits = getNumOfVisits(set.getString(1), exhibitName);
-                exhibitHistory = new VisitExhibit(username, exhibitName, dateTime, numVisits);
-                list.add(exhibitHistory);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+        return set;
     }
 }

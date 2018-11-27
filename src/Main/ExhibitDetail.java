@@ -13,10 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -87,6 +84,20 @@ public class ExhibitDetail {
             animalList.remove(0);
         }
         table = new TableView<>();
+        table.setRowFactory(tv -> {
+            TableRow<Animal> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Animal rowData = row.getItem();
+                    ExhibitDetailController controller1 = new ExhibitDetailController();
+                    Animal animalInfo = controller1.getAnimal(rowData.name);
+                    AnimalDetail exhibitDetail = new AnimalDetail(animalInfo.name, animalInfo.species , animalInfo.type, animalInfo.age, animalInfo.livesIn);
+                    primaryStage.getScene().setRoot(exhibitDetail.getRootPane());
+                    primaryStage.hide();
+                }
+            });
+            return row ;
+        });
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Animal, String>("name"));
         TableColumn speciesCol = new TableColumn("Species");

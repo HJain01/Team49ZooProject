@@ -27,6 +27,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class SearchForShows {
@@ -146,13 +147,15 @@ public class SearchForShows {
                     String username = user.username;
                     String showName = list.get(0).name;
                     String exhibitName = list.get(0).locatedIn;
-//                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm:ss.S");
-                    String nowStr = LocalDateTime.now().toString();
+                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                    LocalDateTime now = LocalDateTime.now();
+                    String nowStr = now.format(dateFormat);
                     String showTimeStr = list.get(0).date;
+                    //CHECK WITH TA'S IF THEY WANT TO INSERT CURRENT TIME OR SHOW TIME
 //                    LocalDateTime now =  LocalDateTime.parse(nowStr, dateFormat);
 //                    LocalDateTime showTime = LocalDateTime.parse(showTimeStr, dateFormat);
                     if (showTimeStr.compareTo(nowStr) == -1) {
-                        showHistoryController.insertVisit(username, showName, nowStr);
+                        showHistoryController.insertVisit(username, showName, showTimeStr);
                         exhibitHistoryController.insertVisit(username, exhibitName, nowStr);
                     }
                 }
