@@ -6,6 +6,7 @@ import database.DatabaseConnector;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 
 
 public class RegistrationController {
@@ -32,6 +33,7 @@ public class RegistrationController {
     public User registerVisitor(String username, String password, String email)
     {
         User newVisitor;
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         newVisitor = sqlCall(username, email, password, User.Type.VISITOR);
         return newVisitor;
     }
@@ -39,6 +41,7 @@ public class RegistrationController {
     public User registerStaff(String username, String password, String email)
     {
         User newStaff;
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         newStaff = sqlCall(username, email, password, User.Type.STAFF);
         return newStaff;
     }

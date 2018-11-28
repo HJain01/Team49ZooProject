@@ -78,6 +78,16 @@ public class Register  {
         PasswordField pwConfirmBox = new PasswordField();
         grid.add(pwConfirmBox, 1, 4);
 
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Previous Page");
+        grid.add(previousLink, 0, 10);
+        previousLink.setOnAction(e -> {
+            Login2 login = new Login2();
+            primaryStage.getScene().setRoot(login.getRootPane());
+            primaryStage.hide();
+        });
+
+
         Scene scene = new Scene(grid, 400, 300);
         primaryStage.setScene(scene);
 

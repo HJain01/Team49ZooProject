@@ -1,6 +1,7 @@
 package Main;
 
 import Controllers.LoginController;
+import Controllers.SessionData;
 import DataModel.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -67,6 +68,10 @@ public class Login2 {
         SignIn.setOnAction(e -> {
             LoginController con = new LoginController();
             User user = con.loginUser(userTextField.getText(), pwBox.getText());
+
+            SessionData session = new SessionData();
+            session.user = user;
+
             if (user.email != null) {
                 if (user.type.toString().equals("VISITOR")) {
                     VisitorFunctionality visitorSignIn = new VisitorFunctionality();
