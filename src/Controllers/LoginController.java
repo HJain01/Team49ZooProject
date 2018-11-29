@@ -20,16 +20,17 @@ public class LoginController {
         try {
             password = Base64.getEncoder().encodeToString(password.getBytes());
             Statement statement = connection.createStatement();
-            statement.execute("SELECT * FROM User ");
+
+            statement.execute("SELECT * FROM User WHERE Email = \"" + email+ "\" AND Password = \"" + password + "\"" );
             ResultSet set = statement.getResultSet();
             while(set.next()) {
-                if (set.getString(2).equals(email) && set.getString(3).equals(password)) {
+                //if (set.getString(2).equals(email) && set.getString(3).equals(password)) {
                     user.username = set.getString(1);
                     user.email = set.getString(2);
                     user.password = set.getString(3);
                     user.type = User.Type.valueOf(set.getString(4).toUpperCase());
                     break;
-                }
+                //}
             }
         } catch (SQLException e) {
             System.out.println(e.getErrorCode());
