@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 
 public class AnimalCareController {
     public ResultSet getAnimalCareNotes(String animalName, String species)
@@ -34,7 +33,7 @@ public class AnimalCareController {
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO Note (StaffUsername, AnimalName, NoteSpecies, LogTime, Text) " +
                     "VALUES (\""+note.staffUsername +"\",\""+note.animalName+"\",\"" + note.species + "\",'"
-                    + LocalDateTime.now().toString() + "',\"" + note.text + "\")";
+                    + note.logTime + "',\"" + note.text + "\")";
             statement.execute(sql);
         } catch(SQLException e)
         {
