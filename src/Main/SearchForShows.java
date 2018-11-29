@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,6 +71,17 @@ public class SearchForShows {
         final ComboBox exhibitType = new ComboBox();
         exhibitType.getItems().addAll("Pacific", "Jungle", "Sahara", "Mountainous", "Birds");
         grid.add(exhibitType, 1, 5);
+
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "LocatedIn");
+        grid.add(orderBy, 5,5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
 
         ObservableList<Show> data = FXCollections.observableArrayList();
         SearchForShowsController controller = new SearchForShowsController();
@@ -190,7 +202,10 @@ public class SearchForShows {
                 String date = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
                 String exhibit = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
                 SearchForShowsController controller = new SearchForShowsController();
-                ResultSet set = controller.searchButtonPressed(showName, date, exhibit);
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                ResultSet set = controller.searchButtonPressed(showName, date, exhibit, orderingColumn, orderingType);
                 ObservableList<Show> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

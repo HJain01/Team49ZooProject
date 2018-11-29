@@ -1,10 +1,8 @@
 package Main;
 
 import Controllers.SearchForShowsController;
-import Controllers.SessionData;
 import Controllers.ViewShowsController;
 import DataModel.Show;
-import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,26 +106,6 @@ public class ViewShows {
         removeBox.getChildren().add(removeShowButton);
         grid.add(removeBox, 3, 15);
 
-        Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Home");
-        grid.add(previousLink, 0, 15);
-        previousLink.setOnAction(e -> {
-            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
-                AdminFunctionality adminSignIn = new AdminFunctionality();
-                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
-                primaryStage.hide();
-            }
-            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
-                StaffFunctionality staffSignIn = new StaffFunctionality();
-                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
-                primaryStage.hide();
-            }
-            else{
-                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
-                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
-                primaryStage.hide();
-            }
-        });
 
         Group root = new Group();
         root.getChildren().addAll(grid);
@@ -144,7 +122,7 @@ public class ViewShows {
                 String date = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
                 String exhibit = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
                 SearchForShowsController controller = new SearchForShowsController();
-                ResultSet set = controller.searchButtonPressed(showName, date, exhibit);
+                ResultSet set = controller.searchButtonPressed(showName, date, exhibit, "Name", "ASC");
                 ObservableList<Show> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

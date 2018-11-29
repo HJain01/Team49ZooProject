@@ -19,7 +19,6 @@ public class RegistrationController {
             Statement statement = conn.createStatement();
             statement.executeUpdate("INSERT INTO User VALUES ('"+username+"', '"+email +
                     "', '"+password+"', '"+type+"')");
-            System.out.println("Success!");
             user.username = username;
             user.email = email;
             user.password = password;
