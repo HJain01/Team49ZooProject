@@ -128,7 +128,7 @@ public class AnimalCare {
 
         Hyperlink previousLink = new Hyperlink();
         previousLink.setText("Home");
-        grid.add(previousLink, 0, 15);
+        grid.add(previousLink, 0, 25);
         previousLink.setOnAction(e -> {
             if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
                 AdminFunctionality adminSignIn = new AdminFunctionality();
