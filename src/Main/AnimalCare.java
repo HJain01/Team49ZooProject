@@ -2,10 +2,7 @@ package Main;
 
 import Controllers.AnimalCareController;
 import Controllers.SessionData;
-import DataModel.Animal;
-import DataModel.Exhibit;
 import DataModel.Note;
-import DataModel.Show;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +22,7 @@ import javafx.stage.Stage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 
 public class AnimalCare {
@@ -146,7 +143,10 @@ public class AnimalCare {
             public void handle(ActionEvent event) {
                 String noteContent = careLog.getText();
                 AnimalCareController animalCareController = new AnimalCareController();
-                Note note = new Note(SessionData.user.username, name, species, LocalDateTime.now().toString(), noteContent);
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime now = LocalDateTime.now();
+                String nowStr = now.format(dateFormat);
+                Note note = new Note(SessionData.user.username, name, species, nowStr, noteContent);
                 controller.AddNote(note);
                 notes.add(note);
             }
