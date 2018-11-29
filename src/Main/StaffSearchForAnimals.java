@@ -1,7 +1,9 @@
 package Main;
 
 import Controllers.SearchForAnimalsController;
+import Controllers.SessionData;
 import DataModel.Animal;
+import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -148,12 +150,24 @@ public class StaffSearchForAnimals {
         root.getChildren().addAll(grid);
 
         Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Previous Page");
+        previousLink.setText("Home");
         grid.add(previousLink, 0, 15);
         previousLink.setOnAction(e -> {
-            StaffFunctionality staffSignIn = new StaffFunctionality();
-            primaryStage.getScene().setRoot(staffSignIn.getRootPane());
-            primaryStage.hide();
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
         Scene scene = new Scene(root,600, 500);

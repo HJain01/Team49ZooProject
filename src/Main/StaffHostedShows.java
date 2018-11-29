@@ -86,12 +86,24 @@ public class StaffHostedShows {
         grid.add(table, 0, 2);
 
         Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Previous Page");
-        grid.add(previousLink, 0, 10);
+        previousLink.setText("Home");
+        grid.add(previousLink, 0, 15);
         previousLink.setOnAction(e -> {
-            StaffFunctionality staffSignIn = new StaffFunctionality();
-            primaryStage.getScene().setRoot(staffSignIn.getRootPane());
-            primaryStage.hide();
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
         Scene scene = new Scene(grid, 500, 400);

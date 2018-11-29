@@ -1,6 +1,8 @@
 package Main;
 
 import Controllers.AddAnimalController;
+import Controllers.SessionData;
+import DataModel.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -82,6 +84,27 @@ public class AddAnimal {
             AdminFunctionality adminSignIn = new AdminFunctionality();
             primaryStage.getScene().setRoot(adminSignIn.getRootPane());
             primaryStage.hide();
+        });
+
+        Hyperlink homeLink = new Hyperlink();
+        homeLink.setText("Home");
+        grid.add(homeLink, 1, 10);
+        homeLink.setOnAction(e -> {
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
         Scene scene = new Scene(root,400, 320);

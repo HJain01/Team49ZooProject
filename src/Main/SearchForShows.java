@@ -122,12 +122,24 @@ public class SearchForShows {
         primaryStage.setScene(scene);
 
         Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Previous Page");
+        previousLink.setText("Home");
         grid.add(previousLink, 0, 15);
         previousLink.setOnAction(e -> {
-            VisitorFunctionality visitorSignIn = new VisitorFunctionality();
-            primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
-            primaryStage.hide();
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
         primaryStage.show();

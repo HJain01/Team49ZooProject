@@ -1,8 +1,10 @@
 package Main;
 
 import Controllers.SearchForShowsController;
+import Controllers.SessionData;
 import Controllers.ViewShowsController;
 import DataModel.Show;
+import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -107,12 +109,24 @@ public class ViewShows {
         grid.add(removeBox, 3, 15);
 
         Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Previous Page");
+        previousLink.setText("Home");
         grid.add(previousLink, 0, 15);
         previousLink.setOnAction(e -> {
-            AdminFunctionality adminSignIn = new AdminFunctionality();
-            primaryStage.getScene().setRoot(adminSignIn.getRootPane());
-            primaryStage.hide();
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
 
         Group root = new Group();

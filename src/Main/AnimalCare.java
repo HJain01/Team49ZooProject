@@ -2,10 +2,7 @@ package Main;
 
 import Controllers.AnimalCareController;
 import Controllers.SessionData;
-import DataModel.Animal;
-import DataModel.Exhibit;
-import DataModel.Note;
-import DataModel.Show;
+import DataModel.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -130,13 +127,26 @@ public class AnimalCare {
         primaryStage.setScene(scene);
 
         Hyperlink previousLink = new Hyperlink();
-        previousLink.setText("Previous Page");
+        previousLink.setText("Home");
         grid.add(previousLink, 0, 15);
         previousLink.setOnAction(e -> {
-            StaffSearchForAnimals animalSearch = new StaffSearchForAnimals();
-            primaryStage.getScene().setRoot(animalSearch.getRootPane());
-            primaryStage.hide();
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
         });
+
 
 
         primaryStage.show();

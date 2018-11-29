@@ -1,9 +1,12 @@
 package Main;
 
+import Controllers.SessionData;
+import DataModel.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -61,6 +64,27 @@ public class AnimalDetail {
         Group rootType = new Group();
         rootType.getChildren().addAll(animalType);
         grid.add(rootType, 2, 3);
+
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Home");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
+        });
 
         Scene scene = new Scene(grid, 500, 400);
         primaryStage.setScene(scene);
