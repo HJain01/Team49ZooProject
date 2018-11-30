@@ -160,16 +160,14 @@ public class ExhibitHistory {
                 int minNum = null != minNumber.getValue() ? (int) minNumber.getValue() : 0;
                 int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 99;
                 ExhibitHistoryController controller = new ExhibitHistoryController();
-                ResultSet set = controller.searchButtonPressed(user.username, name, time);
+                ResultSet set = controller.searchButtonPressed(user.username, name, time, minNum, maxNum);
                 try {
                     while(set.next()) {
-                        String exhibitName = set.getString(2);
-                        String dateTime = set.getString(3);
-                        int numVisits = controller.getNumOfVisits(set.getString(1), exhibitName);
-                        if (minNum <= numVisits && maxNum >= numVisits) {
-                            VisitExhibit exhibitHistory = new VisitExhibit(user.username, exhibitName, dateTime, numVisits);
-                            data.addAll(exhibitHistory);
-                        }
+                        String exhibitName = set.getString(1);
+                        String dateTime = set.getString(5);
+                        int numVisits = set.getInt(3);
+                        VisitExhibit exhibitHistory = new VisitExhibit(user.username, exhibitName, dateTime, numVisits);
+                        data.addAll(exhibitHistory);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

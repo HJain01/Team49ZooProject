@@ -66,17 +66,18 @@ public class ExhibitHistoryController {
         }
     }
 
-    public ResultSet searchButtonPressed(String username, String name, String time) {
+    public ResultSet searchButtonPressed(String username, String name, String time, int minNum, int maxNum) {
         int numOfVisits = getNumOfVisits(username, name);
         ResultSet set = null;
         Connection conn = DatabaseConnector.establishConnection();
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
+            String countSql = "SELECT ExhibitName, VisitorUsername, COUNT(VisitorUsername) FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
+                    + " AND (ExhibitName=\"" + name + "\" OR \"" + name + "\"=\"\") GROUP BY ExhibitName HAVING (COUNT(VisitorUsername)>=" + minNum + " AND COUNT(VisitorUsername)<=" + maxNum + ")";
+            String filterSql = "SELECT * FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
                          + " AND (exhibitName=\"" + name + "\" OR \"" + name + "\"=\"\")"
                          + " AND (DateAndTime LIKE \"" + time + "%\" OR \"" + time + "\"=\"\")";
-//                         + " AND (" + numOfVisits + ">=" + minNum + " OR " + minNum + "=0)"
-//                         + " AND (" + numOfVisits + "<=" + maxNum + " OR " + maxNum + "=0)";
+            String sql = "SELECT * FROM (" + countSql + ") t1 INNER JOIN (" + filterSql + ") t2 ON t1.ExhibitName=t2.ExhibitName";
             statement.execute(sql);
             set = statement.getResultSet();
         } catch (SQLException e) {
