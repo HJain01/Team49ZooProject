@@ -196,10 +196,7 @@ public class SearchForExhibits  {
                 ObservableList<Exhibit> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {
-                        HashMap<String, Integer> numAnimals = controller.getNumAnimals();
-                        if (numAnimals.get(set.getString(1)) >= minNum && numAnimals.get(set.getString(1)) <= maxNum) {
-                            data.addAll(new Exhibit(set.getString(1), set.getInt(2), numAnimals.get(set.getString(1)), set.getBoolean(3)));
-                        }
+                        data.addAll(new Exhibit(set.getString(1), set.getInt(2), set.getInt(5), set.getBoolean(3)));
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

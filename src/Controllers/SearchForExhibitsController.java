@@ -42,13 +42,17 @@ public class SearchForExhibitsController {
             } else {
                 water=0;
             }
-            //String countSql = "SELECT COUNT(LivesIn) FROM Animal GROUP BY LivesIn";
-            String sql = "SELECT * FROM Exhibit WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
+            String countSql = "SELECT LivesIn, COUNT(LivesIn) FROM Animal GROUP BY LivesIn HAVING (COUNT(LivesIn)>=" + minAnimals
+                    + " AND COUNT(LivesIn)<=" + maxAnimals + ")";
+            String filterSql = "SELECT * FROM Exhibit WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
                     + " AND (Size>=" + minSize + " OR " + minSize + " = 0)"
                     + " AND (Size<=" + maxSize + " OR " + maxSize + " = 0)"
-                    + " AND (WaterFeature=" + water + " OR " + water + " = 0)";
+                    + " AND (WaterFeature=" + water + " OR 1=0)";
 //                    + " AND ((" + countSql + ") >= " + minAnimals + " OR " + minAnimals + " = 0)"
 //                    + " AND ((" + countSql + ") <= " + maxAnimals + " OR " + maxAnimals + " = 0)";
+            String sql = "SELECT * FROM" +
+                    " (" + filterSql + ") t1" +
+                    " INNER JOIN (" + countSql + ") t2 ON t1.Name=t2.LivesIn";
             statement.execute(sql);
             set = statement.getResultSet();
         }catch (SQLException e) {
