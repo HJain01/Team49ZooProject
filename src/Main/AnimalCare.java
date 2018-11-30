@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -84,12 +85,29 @@ public class AnimalCare {
 
         HBox logBox = new HBox(10);
         logBox.getChildren().add(logButton);
-        grid.add(logBox, 5, 4);
+        grid.add(logBox, 5, 6);
+
+        Button reorderButton = new Button("Re-Order");
+        HBox reorderBox = new HBox(10);
+        //reorderBox.setAlignment(Pos.CENTER);
+        reorderBox.getChildren().add(reorderButton);
+        grid.add(reorderBox, 6, 6);
+
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,7);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("StaffUsername", "Text","LogTime");
+        grid.add(orderBy, 5,7);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,7);
+
 
         //run query
         ObservableList<Note> notes = FXCollections.observableArrayList();
         AnimalCareController controller = new AnimalCareController();
-        ResultSet set = controller.getAnimalCareNotes(name, species);
+        ResultSet set = controller.getAnimalCareNotes(name, species, "StaffUsername", "ASC");
 
         //resultset -> observable list
         try
@@ -159,9 +177,42 @@ public class AnimalCare {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime now = LocalDateTime.now();
                 String nowStr = now.format(dateFormat);
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "StaffUsername";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
                 Note note = new Note(SessionData.user.username, name, species, nowStr, noteContent);
                 controller.AddNote(note);
                 notes.add(note);
+            }
+        });
+        reorderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<Note> newData = FXCollections.observableArrayList();
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                AnimalCareController controller1 = new AnimalCareController();
+                ResultSet newResults = controller1.getAnimalCareNotes(name, species, orderingColumn, orderingType);
+                try
+                {
+                    while(newResults.next())
+                    {
+                        String staffUsername = newResults.getString(1);
+                        String Name = newResults.getString(2);
+                        String Species = newResults.getString(3);
+                        String logTime = newResults.getString(4);
+                        String content = newResults.getString(5);
+                        newData.addAll(new Note(staffUsername, Name, Species, logTime, content));
+                    }
+                }catch(SQLException e) {
+                    e.printStackTrace();
+                }
+
+                table.setItems(newData);
+
             }
         });
     }

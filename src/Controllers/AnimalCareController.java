@@ -9,14 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AnimalCareController {
-    public ResultSet getAnimalCareNotes(String animalName, String species)
+    public ResultSet getAnimalCareNotes(String animalName, String species, String orderColumn, String orderType)
     {
         ResultSet returnSet = null;
         Connection conn = DatabaseConnector.establishConnection();
         try
         {
             Statement statement = conn.createStatement();
-            String sql = "Select * from Note WHERE AnimalName = \"" + animalName + "\" AND NoteSpecies = \"" + species +"\"";
+            String sql = "Select * from Note WHERE AnimalName = \"" + animalName + "\" AND NoteSpecies = \"" + species +"\""
+                    + " ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             returnSet = statement.getResultSet();
         }catch(SQLException e)

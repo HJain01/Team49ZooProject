@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class StaffHostedShowsController {
-    public ResultSet getShowsForStaffMember(String hostUsername)
+    public ResultSet getShowsForStaffMember(String hostUsername, String orderColumn, String orderType)
     {
         Connection conn = DatabaseConnector.establishConnection();
         ResultSet set = null;
@@ -17,7 +17,8 @@ public class StaffHostedShowsController {
         {
             Statement statement = conn.createStatement();
 
-            String sql = "Select * FROM Shows WHERE HostUsername =\"" + hostUsername + "\"";
+            String sql = "Select * FROM Shows WHERE HostUsername =\"" + hostUsername + "\""
+                    + " ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             set = statement.getResultSet();
         } catch(SQLException e)

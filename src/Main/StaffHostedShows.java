@@ -38,7 +38,7 @@ public class StaffHostedShows {
         ObservableList<Show> data = FXCollections.observableArrayList();
 
         User user = SessionData.user;
-        ResultSet result = controller.getShowsForStaffMember(user.username);
+        ResultSet result = controller.getShowsForStaffMember(user.username, "Name", "ASC");
 
         try
         {
@@ -128,7 +128,7 @@ public class StaffHostedShows {
             String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
 
             StaffHostedShowsController controller1 = new StaffHostedShowsController();
-            ResultSet result1 = controller.getShowsForStaffMember(user.username);
+            ResultSet result1 = controller.getShowsForStaffMember(user.username, orderingColumn, orderingType);
 
             try
             {
