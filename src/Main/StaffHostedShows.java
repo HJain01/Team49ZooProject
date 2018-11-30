@@ -1,20 +1,20 @@
 package Main;
 
+import Controllers.ExhibitDetailController;
 import Controllers.SessionData;
 import Controllers.StaffHostedShowsController;
+import DataModel.Animal;
 import DataModel.Show;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -77,6 +77,22 @@ public class StaffHostedShows {
         TableColumn exhibitCol = new TableColumn("Exhibit");
         exhibitCol.setCellValueFactory(new PropertyValueFactory<Show, String>("locatedIn"));
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 3,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "DateAndTime");
+        grid.add(orderBy, 4,5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 5,5);
+
+        Button reorderButton = new Button("Re-Order");
+        HBox reorderBox = new HBox(10);
+        //reorderBox.setAlignment(Pos.CENTER);
+        reorderBox.getChildren().add(reorderButton);
+        grid.add(reorderBox, 2, 5);
+
 
         table.setItems(data);
         table.getColumns().setAll(nameCol, timeCol, exhibitCol);
@@ -104,6 +120,28 @@ public class StaffHostedShows {
                 primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
                 primaryStage.hide();
             }
+        });
+        reorderButton.setOnAction(e -> {
+            ObservableList<Show> newData = FXCollections.observableArrayList();
+
+            String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+            String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+            StaffHostedShowsController controller1 = new StaffHostedShowsController();
+            ResultSet result1 = controller.getShowsForStaffMember(user.username);
+
+            try
+            {
+                while(result1.next()){
+                    String showName = result1.getString(1);
+                    String showDateTime = result1.getString(2);
+                    String showLocation = result1.getString(4);
+                    newData.addAll(new Show(showName, showDateTime, user.username, showLocation));
+                }
+            } catch(SQLException f){
+                System.out.println(f.getErrorCode());
+            }
+            table.setItems(newData);
         });
 
         Scene scene = new Scene(grid, 500, 400);

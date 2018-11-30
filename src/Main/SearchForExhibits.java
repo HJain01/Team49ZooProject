@@ -134,6 +134,16 @@ public class SearchForExhibits  {
             return row ;
         });
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,6);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "Size", "numAnimals", "WaterFeature");
+        grid.add(orderBy, 5,6);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,6);
+
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Exhibit, String>("name"));
         TableColumn sizeCol = new TableColumn("Size");
@@ -190,9 +200,13 @@ public class SearchForExhibits  {
                 int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue(): 99;
                 int minSize = null != minSizeNumber.getValue() ? (int) minSizeNumber.getValue(): 0;
                 int maxSize = null != maxSizeNumber.getValue() ? (int) maxSizeNumber.getValue(): 0;
-                String water = null != waterFeatureBox.getValue() ? (String) waterFeatureBox.getValue(): "";
+                String water = null != waterFeatureBox.getValue() ? (String) waterFeatureBox.getValue(): "2";
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
                 SearchForExhibitsController controller = new SearchForExhibitsController();
-                ResultSet set = controller.searchButtonPressed(name, minNum, maxNum, water, minSize, maxSize);
+                ResultSet set = controller.searchButtonPressed(name, minNum, maxNum, water, minSize, maxSize, orderingColumn, orderingType);
                 ObservableList<Exhibit> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

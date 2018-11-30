@@ -31,7 +31,7 @@ public class SearchForExhibitsController {
         return list;
     }
     public ResultSet searchButtonPressed(String name, int minAnimals, int maxAnimals, String waterFeature,
-                                       int minSize, int maxSize) {
+                                       int minSize, int maxSize, String orderColumn, String orderType) {
         Connection conn = DatabaseConnector.establishConnection();
         ResultSet set = null;
         try {
@@ -39,20 +39,23 @@ public class SearchForExhibitsController {
             int water;
             if (waterFeature=="Yes") {
                 water=1;
-            } else {
+            } else if (waterFeature == "No") {
                 water=0;
             }
-            String countSql = "SELECT LivesIn, COUNT(LivesIn) FROM Animal GROUP BY LivesIn HAVING (COUNT(LivesIn)>=" + minAnimals
+            else{
+                water = 2;
+            }
+            String countSql = "SELECT LivesIn, COUNT(LivesIn) as numAnimals FROM Animal GROUP BY LivesIn HAVING (COUNT(LivesIn)>=" + minAnimals
                     + " AND COUNT(LivesIn)<=" + maxAnimals + ")";
             String filterSql = "SELECT * FROM Exhibit WHERE (Name=\"" + name + "\" OR \"" + name + "\" = \"\")"
                     + " AND (Size>=" + minSize + " OR " + minSize + " = 0)"
                     + " AND (Size<=" + maxSize + " OR " + maxSize + " = 0)"
-                    + " AND (WaterFeature=" + water + " OR 1=0)";
+                    + " AND (WaterFeature=" + water + " OR " + water + " =2)";
 //                    + " AND ((" + countSql + ") >= " + minAnimals + " OR " + minAnimals + " = 0)"
 //                    + " AND ((" + countSql + ") <= " + maxAnimals + " OR " + maxAnimals + " = 0)";
             String sql = "SELECT * FROM" +
                     " (" + filterSql + ") t1" +
-                    " INNER JOIN (" + countSql + ") t2 ON t1.Name=t2.LivesIn";
+                    " INNER JOIN (" + countSql + ") t2 ON t1.Name=t2.LivesIn" + " ORDER BY " + orderColumn+ " " + orderType;
             statement.execute(sql);
             set = statement.getResultSet();
         }catch (SQLException e) {

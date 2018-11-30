@@ -103,7 +103,18 @@ public class SearchForAnimals {
         Label waterFeature = new Label("Species: ");
         grid.add(waterFeature, 0, 5);
         TextField speciesTextField = new TextField();
-        grid.add(speciesTextField, 1, 5);
+        grid.add(speciesTextField, 1, 6);
+
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,6);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "Species", "LivesIn", "Age", "Type");
+        grid.add(orderBy, 5,6);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,6);
+
 
         table = new TableView<>();
 
@@ -184,8 +195,13 @@ public class SearchForAnimals {
                 String type = null != animalType.getValue() ? (String) animalType.getValue() : "";
                 String species = null != speciesTextField.getText() ? speciesTextField.getText() : "";
                 String livesIn = null != exhibitSearchBox.getValue() ? (String) exhibitSearchBox.getValue() : "";
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
                 SearchForAnimalsController controller = new SearchForAnimalsController();
-                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn);
+                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn,
+                        orderingColumn, orderingType);
                 ObservableList<Animal> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

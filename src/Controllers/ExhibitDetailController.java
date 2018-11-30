@@ -12,14 +12,15 @@ import java.util.List;
 
 public class ExhibitDetailController {
 
-    public List<Animal> getAnimals(String exhibitName) {
+    public List<Animal> getAnimals(String exhibitName, String orderColumn, String orderType) {
         Animal animal = new Animal("", "", "", 0, "");
         List<Animal> animalList = new ArrayList<>();
         Connection conn = DatabaseConnector.establishConnection();
 
         try {
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM Animal WHERE LivesIn=\"" + exhibitName + "\"";
+            String sql = "SELECT * FROM Animal WHERE LivesIn=\"" + exhibitName + "\"" + " ORDER BY " + orderColumn + " "
+                    + orderType;
             statement.execute(sql);
             ResultSet set = statement.getResultSet();
             while(set.next()) {

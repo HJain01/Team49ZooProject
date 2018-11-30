@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class SearchForAnimalsController {
     public ResultSet searchButtonPressed(String name, String species, String type,
-                                         int minNum, int maxNum, String livesIn) {
+                                         int minNum, int maxNum, String livesIn, String orderColumn, String orderType) {
         Connection conn = DatabaseConnector.establishConnection();
         ResultSet set = null;
         try {
@@ -21,7 +21,8 @@ public class SearchForAnimalsController {
                          + " AND (Type=\"" + type + "\" OR \"" + type + "\" = \"\")"
                          + " AND (Age>=" + minNum + " OR " + minNum + " = 0)"
                          + " AND (Age<=" + maxNum + " OR " + maxNum + " = 0)"
-                         + " AND (livesIn=\"" + livesIn + "\" OR \"" + livesIn + "\" = \"\")";
+                         + " AND (livesIn=\"" + livesIn + "\" OR \"" + livesIn + "\" = \"\")"
+                         + " ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             set = statement.getResultSet();
         } catch (SQLException e) {

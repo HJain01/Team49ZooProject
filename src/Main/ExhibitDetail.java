@@ -76,9 +76,25 @@ public class ExhibitDetail {
         LogVisitBox.getChildren().add(LogVisit);
         grid.add(LogVisitBox, 3, 4);
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "Species");
+        grid.add(orderBy, 5,5);
+
+        Button reorderButton = new Button("Re-Order");
+        HBox reorderBox = new HBox(10);
+        //reorderBox.setAlignment(Pos.CENTER);
+        reorderBox.getChildren().add(reorderButton);
+        grid.add(reorderBox, 3, 5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
         ObservableList<Animal> data = FXCollections.observableArrayList();
         ExhibitDetailController controller = new ExhibitDetailController();
-        List<Animal> animalList = controller.getAnimals(name);
+        List<Animal> animalList = controller.getAnimals(name, "Name", "DESC");
         while (!animalList.isEmpty()) {
             data.addAll(animalList.get(0));
             animalList.remove(0);
@@ -153,6 +169,16 @@ public class ExhibitDetail {
                 ExhibitHistoryController controller = new ExhibitHistoryController();
                 controller.insertVisit(username, exhibitName, dateTime);
             }
+        });
+        reorderButton.setOnAction(e -> {
+            ObservableList<Animal> newData = FXCollections.observableArrayList();
+
+            String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+            String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+            ExhibitDetailController controller1 = new ExhibitDetailController();
+            newData.addAll(controller1.getAnimals(name, orderingColumn, orderingType));
+            table.setItems(newData);
         });
 
     }

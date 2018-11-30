@@ -66,10 +66,13 @@ public class ExhibitHistoryController {
         }
     }
 
-    public ResultSet searchButtonPressed(String username, String name, String time, int minNum, int maxNum) {
+    public ResultSet searchButtonPressed(String username, String name, String time, int minNum, int maxNum, String orderColumn, String orderType) {
         int numOfVisits = getNumOfVisits(username, name);
         ResultSet set = null;
         Connection conn = DatabaseConnector.establishConnection();
+        if(orderColumn.equals("ExhibitName")){
+            orderColumn = "t2.ExhibitName";
+        }
         try {
             Statement statement = conn.createStatement();
             String countSql = "SELECT ExhibitName, VisitorUsername, COUNT(VisitorUsername) FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
@@ -77,7 +80,8 @@ public class ExhibitHistoryController {
             String filterSql = "SELECT * FROM VisitExhibit WHERE (VisitorUsername=\"" + username + "\" OR \"" + username + "\"=\"\")"
                          + " AND (exhibitName=\"" + name + "\" OR \"" + name + "\"=\"\")"
                          + " AND (DateAndTime LIKE \"" + time + "%\" OR \"" + time + "\"=\"\")";
-            String sql = "SELECT * FROM (" + countSql + ") t1 INNER JOIN (" + filterSql + ") t2 ON t1.ExhibitName=t2.ExhibitName";
+            String sql = "SELECT * FROM (" + countSql + ") t1 INNER JOIN (" + filterSql + ") t2 ON t1.ExhibitName=t2.ExhibitName"
+            + " ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             set = statement.getResultSet();
         } catch (SQLException e) {

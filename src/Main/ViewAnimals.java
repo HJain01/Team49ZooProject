@@ -173,7 +173,7 @@ public class ViewAnimals {
                 String species = null != speciesTextField.getText() ? speciesTextField.getText() : "";
                 String livesIn = null != exhibitSearchBox.getValue() ? (String) exhibitSearchBox.getValue() : "";
                 SearchForAnimalsController controller = new SearchForAnimalsController();
-                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn);
+                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn, "Name", "ASC");
                 ObservableList<Animal> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

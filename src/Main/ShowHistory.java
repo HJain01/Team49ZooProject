@@ -74,6 +74,16 @@ public class ShowHistory {
         exhibitType.getItems().addAll("Pacific", "Jungle", "Sahara", "Mountainous", "Birds");
         grid.add(exhibitType, 5, 2);
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("ShowName", "ShowTime");
+        grid.add(orderBy, 5,5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
         table = new TableView<>();
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<VisitShow, String>("showName"));
@@ -132,7 +142,11 @@ public class ShowHistory {
                 String showName = null != nameTextField.getText() ? nameTextField.getText() : "";
                 String exhibitName = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
                 String time = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
-                List<VisitShow> list = controller.searchButtonPressed(user.username, showName, time, exhibitName);
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "ShowName";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                List<VisitShow> list = controller.searchButtonPressed(user.username, showName, time, exhibitName, orderingColumn, orderingType);
                 while(!list.isEmpty()) {
                     data.addAll(list.get(0));
                     list.remove(0);

@@ -80,6 +80,16 @@ public class ExhibitHistory {
         maxNumber.getItems().addAll(generator());
         grid.add(maxNumber, 6, 2);
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("ExhibitName", "DateAndTime");
+        grid.add(orderBy, 5,5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
         table = new TableView<>();
         table.setRowFactory(tv -> {
             TableRow<VisitExhibit> row = new TableRow<>();
@@ -160,7 +170,11 @@ public class ExhibitHistory {
                 int minNum = null != minNumber.getValue() ? (int) minNumber.getValue() : 0;
                 int maxNum = null != maxNumber.getValue() ? (int) maxNumber.getValue() : 99;
                 ExhibitHistoryController controller = new ExhibitHistoryController();
-                ResultSet set = controller.searchButtonPressed(user.username, name, time, minNum, maxNum);
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "ExhibitName";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                ResultSet set = controller.searchButtonPressed(user.username, name, time, minNum, maxNum, orderingColumn, orderingType);
                 try {
                     while(set.next()) {
                         String exhibitName = set.getString(1);
