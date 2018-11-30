@@ -9,12 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ViewStaffController {
-    public ResultSet getAllStaff(){
+    public ResultSet getAllStaff(String orderColumn, String orderType){
         Connection conn = DatabaseConnector.establishConnection();
         ResultSet returnSet = null;
         try{
             Statement statement = conn.createStatement();
-            String sql = "Select * from User where Type=\"Staff\"";
+            String sql = "Select * from User where Type=\"Staff\""
+                    +" ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             returnSet = statement.getResultSet();
         }

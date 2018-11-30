@@ -9,13 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ViewVisitorsController {
-    public ResultSet getAllVisitors()
+    public ResultSet getAllVisitors(String orderColumn, String orderType)
     {
         Connection conn = DatabaseConnector.establishConnection();
         ResultSet returnSet = null;
         try {
             Statement statement = conn.createStatement();
-            String sql = "Select * from User WHERE Type = \"Visitor\"";
+            String sql = "Select * from User WHERE Type = \"Visitor\"" + " ORDER BY " + orderColumn + " " + orderType;
             statement.execute(sql);
             returnSet = statement.getResultSet();
         }catch(Exception e) {

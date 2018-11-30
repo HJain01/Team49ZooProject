@@ -1,8 +1,10 @@
 package Main;
 
 import Controllers.SearchForShowsController;
+import Controllers.SessionData;
 import Controllers.ViewShowsController;
 import DataModel.Show;
+import DataModel.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,6 +49,7 @@ public class ViewShows {
         }  catch(SQLException e) {
             e.printStackTrace();
         }
+
 
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Atlanta Zoo");
@@ -99,6 +102,18 @@ public class ViewShows {
         searchBox.getChildren().add(searchButton);
         grid.add(searchBox, 3, 5);
 
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "LocatedIn");
+        grid.add(orderBy, 5,5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
+
+
 
         Button removeShowButton = new Button("Remove Show");
         HBox removeBox = new HBox(10);
@@ -113,6 +128,27 @@ public class ViewShows {
         Scene scene = new Scene(root,650, 500);
         primaryStage.setScene(scene);
 
+        Hyperlink previousLink = new Hyperlink();
+        previousLink.setText("Home");
+        grid.add(previousLink, 0, 15);
+        previousLink.setOnAction(e -> {
+            if(SessionData.user != null && SessionData.user.type == User.Type.ADMIN) {
+                AdminFunctionality adminSignIn = new AdminFunctionality();
+                primaryStage.getScene().setRoot(adminSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else if(SessionData.user != null && SessionData.user.type == User.Type.STAFF) {
+                StaffFunctionality staffSignIn = new StaffFunctionality();
+                primaryStage.getScene().setRoot(staffSignIn.getRootPane());
+                primaryStage.hide();
+            }
+            else{
+                VisitorFunctionality visitorSignIn = new VisitorFunctionality();
+                primaryStage.getScene().setRoot(visitorSignIn.getRootPane());
+                primaryStage.hide();
+            }
+        });
+
         primaryStage.show();
 
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -122,7 +158,11 @@ public class ViewShows {
                 String date = null != datePicker.getValue() ? Date.valueOf(datePicker.getValue()).toString() : "";
                 String exhibit = null != exhibitType.getValue() ? (String) exhibitType.getValue() : "";
                 SearchForShowsController controller = new SearchForShowsController();
-                ResultSet set = controller.searchButtonPressed(showName, date, exhibit, "Name", "ASC");
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                ResultSet set = controller.searchButtonPressed(showName, date, exhibit, orderingColumn, orderingType);
                 ObservableList<Show> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

@@ -61,7 +61,7 @@ public class AddShows {
 
         ViewStaffController otherContoller = new ViewStaffController();
         ObservableList<User> data = FXCollections.observableArrayList();
-        ResultSet set = otherContoller.getAllStaff();
+        ResultSet set = otherContoller.getAllStaff("Username", "ASC");
         try{
             while(set.next()){
                 String username = set.getString(1);

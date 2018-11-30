@@ -85,6 +85,21 @@ public class ViewAnimals {
         minNumber.getItems().addAll(generator());
         grid.add(minNumber, 5, 2);
 
+
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,6);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Name", "Species", "LivesIn", "Type", "Age");
+        grid.add(orderBy, 5,6);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,6);
+
+
+
+
+
         Label max = new Label("Max");
         grid.add(max, 6, 1);
         final ComboBox maxNumber = new ComboBox();
@@ -172,8 +187,12 @@ public class ViewAnimals {
                 String type = null != animalType.getValue() ? (String) animalType.getValue() : "";
                 String species = null != speciesTextField.getText() ? speciesTextField.getText() : "";
                 String livesIn = null != exhibitSearchBox.getValue() ? (String) exhibitSearchBox.getValue() : "";
+
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Name";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
                 SearchForAnimalsController controller = new SearchForAnimalsController();
-                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn, "Name", "ASC");
+                ResultSet set = controller.searchButtonPressed(name, species, type, minNum, maxNum, livesIn, orderingColumn, orderingType);
                 ObservableList<Animal> data = FXCollections.observableArrayList();
                 try {
                     while (set.next()) {

@@ -11,10 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -36,7 +33,7 @@ public class ViewStaff {
         rootPane = new BorderPane();
         ObservableList<User> data = FXCollections.observableArrayList();
         ViewStaffController controller = new ViewStaffController();
-        ResultSet set = controller.getAllStaff();
+        ResultSet set = controller.getAllStaff("Username", "ASC");
         try{
             while(set.next()){
                 String username = set.getString(1);
@@ -76,6 +73,23 @@ public class ViewStaff {
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         grid.add(table, 0, 2);
+
+        Label orderByLabel = new Label("Order By:");
+        grid.add(orderByLabel, 4,5);
+        final ComboBox orderBy = new ComboBox();
+        orderBy.getItems().addAll("Username", "Email");
+        grid.add(orderBy, 5,5);
+
+        Button reorderButton = new Button("Re-Order");
+        HBox reorderBox = new HBox(10);
+        //reorderBox.setAlignment(Pos.CENTER);
+        reorderBox.getChildren().add(reorderButton);
+        grid.add(reorderBox, 3, 5);
+
+        final ComboBox orderType = new ComboBox();
+        orderType.getItems().addAll("ASC", "DESC");
+        grid.add(orderType, 6,5);
+
 
         Button deleteStaff = new Button("Delete Staff Member");
         HBox deleteBox = new HBox(10);
@@ -117,6 +131,33 @@ public class ViewStaff {
                     controller1.removeStaff(list.get(0).username, list.get(0).email);
                     table.getItems().remove(list.get(0));
                 }
+            }
+        });
+        reorderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String orderingColumn = null != orderBy.getValue() ? (String) orderBy.getValue() : "Username";
+                String orderingType = null != orderType.getValue() ? (String) orderType.getValue() : "ASC";
+
+                ViewStaffController controller1 = new ViewStaffController();
+
+                ObservableList<User> staff = FXCollections.observableArrayList();
+                ResultSet newResults = controller1.getAllStaff(orderingColumn, orderingType);
+
+                try{
+                    while(newResults.next()){
+                        String username = newResults.getString(1);
+                        String email = newResults.getString(2);
+                        String password = newResults.getString(3);
+                        String type = newResults.getString(4);
+                        User.Type realType = User.stringToType(type);
+                        staff.addAll(new User(username, email, password, realType));
+                    }
+                }
+                catch(SQLException e){
+                    System.out.println(e.getErrorCode());
+                }
+                table.setItems(staff);
             }
         });
     }
