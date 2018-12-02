@@ -178,7 +178,7 @@ public class ExhibitHistory {
                 try {
                     while(set.next()) {
                         String exhibitName = set.getString(1);
-                        String dateTime = set.getString(5);
+                        String dateTime = set.getString(6);
                         int numVisits = set.getInt(3);
                         VisitExhibit exhibitHistory = new VisitExhibit(user.username, exhibitName, dateTime, numVisits);
                         data.addAll(exhibitHistory);
