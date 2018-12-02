@@ -187,7 +187,7 @@ public class SearchForExhibits  {
             }
         });
 
-        Scene scene = new Scene(root,580, 500);
+        Scene scene = new Scene(root,600, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();

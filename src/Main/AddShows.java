@@ -105,8 +105,6 @@ public class AddShows {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-
-
         Hyperlink previousLink = new Hyperlink();
         previousLink.setText("Previous Page");
         grid.add(previousLink, 0, 10);

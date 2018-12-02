@@ -157,7 +157,7 @@ public class ExhibitHistory {
             }
         });
 
-        Scene scene = new Scene(root,600, 500);
+        Scene scene = new Scene(root,680, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();

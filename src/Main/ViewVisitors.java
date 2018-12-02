@@ -74,28 +74,28 @@ public class ViewVisitors {
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        grid.add(table, 0, 2);
+        grid.add(table, 0, 2, 7, 3);
 
         Button deleteVisitor = new Button("Delete Visitor");
         HBox deleteBox = new HBox(10);
         deleteBox.getChildren().add(deleteVisitor);
-        grid.add(deleteBox, 0, 4);
+        grid.add(deleteBox, 0, 6);
 
         Label orderByLabel = new Label("Order By:");
-        grid.add(orderByLabel, 4,5);
+        grid.add(orderByLabel, 2,5);
         final ComboBox orderBy = new ComboBox();
         orderBy.getItems().addAll("Username", "Email");
-        grid.add(orderBy, 5,5);
+        grid.add(orderBy, 3,5);
 
         Button reorderButton = new Button("Re-Order");
         HBox reorderBox = new HBox(10);
         //reorderBox.setAlignment(Pos.CENTER);
         reorderBox.getChildren().add(reorderButton);
-        grid.add(reorderBox, 3, 5);
+        grid.add(reorderBox, 0, 5);
 
         final ComboBox orderType = new ComboBox();
         orderType.getItems().addAll("ASC", "DESC");
-        grid.add(orderType, 6,5);
+        grid.add(orderType, 4,5);
 
         Hyperlink previousLink = new Hyperlink();
         previousLink.setText("Home");
@@ -118,7 +118,7 @@ public class ViewVisitors {
             }
         });
 
-        Scene scene = new Scene(grid, 500, 400);
+        Scene scene = new Scene(grid, 560, 500);
         primaryStage.setScene(scene);
 
         primaryStage.show();

@@ -120,7 +120,6 @@ public class AdminFunctionality {
 
         });
 
-
     }
 
     public Pane getRootPane() {

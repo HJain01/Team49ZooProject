@@ -91,7 +91,7 @@ public class StaffHostedShows {
         HBox reorderBox = new HBox(10);
         //reorderBox.setAlignment(Pos.CENTER);
         reorderBox.getChildren().add(reorderButton);
-        grid.add(reorderBox, 2, 5);
+        grid.add(reorderBox, 0, 5);
 
 
         table.setItems(data);
@@ -99,7 +99,7 @@ public class StaffHostedShows {
         table.setPrefWidth(400);
         table.setPrefHeight(200);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        grid.add(table, 0, 2);
+        grid.add(table, 0, 2, 7, 3);
 
         Hyperlink previousLink = new Hyperlink();
         previousLink.setText("Home");
@@ -144,7 +144,7 @@ public class StaffHostedShows {
             table.setItems(newData);
         });
 
-        Scene scene = new Scene(grid, 500, 400);
+        Scene scene = new Scene(grid, 560, 400);
         primaryStage.setScene(scene);
 
         primaryStage.show();

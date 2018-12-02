@@ -67,7 +67,7 @@ public class SearchForAnimals {
         grid.add(scenetitle, 0, 0, 2, 1);
 
         Label exhibit = new Label("Exhibit: ");
-        grid.add(exhibit, 4, 0);
+        grid.add(exhibit, 4, 0, 5, 1);
         final ComboBox exhibitSearchBox = new ComboBox();
         exhibitSearchBox.getItems().addAll(
                 "Pacific", "Jungle", "Sahara", "Mountainous", "Birds"
@@ -103,7 +103,7 @@ public class SearchForAnimals {
         Label waterFeature = new Label("Species: ");
         grid.add(waterFeature, 0, 5);
         TextField speciesTextField = new TextField();
-        grid.add(speciesTextField, 1, 6);
+        grid.add(speciesTextField, 1, 5);
 
         Label orderByLabel = new Label("Order By:");
         grid.add(orderByLabel, 4,6);

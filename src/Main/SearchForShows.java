@@ -64,7 +64,7 @@ public class SearchForShows {
         Label date = new Label("Date:");
         grid.add(date, 4, 2);
         DatePicker datePicker = new DatePicker();
-        grid.add(datePicker, 5, 2);
+        grid.add(datePicker, 5, 2, 6, 2);
 
         Label exhibit = new Label("Exhibit:");
         grid.add(exhibit, 0, 5);
@@ -130,7 +130,7 @@ public class SearchForShows {
         Group root = new Group();
         root.getChildren().addAll(grid);
 
-        Scene scene = new Scene(root,600, 500);
+        Scene scene = new Scene(root,620, 500);
         primaryStage.setScene(scene);
 
         Hyperlink previousLink = new Hyperlink();

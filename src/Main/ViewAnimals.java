@@ -64,12 +64,12 @@ public class ViewAnimals {
         grid.add(scenetitle, 0, 0, 2, 1);
 
         Label exhibit = new Label("Exhibit: ");
-        grid.add(exhibit, 4, 0);
+        grid.add(exhibit, 4, 0, 6, 1);
         final ComboBox exhibitSearchBox = new ComboBox();
         exhibitSearchBox.getItems().addAll(
                 "Pacific", "Jungle", "Sahara", "Mountainous", "Birds"
         );
-        grid.add(exhibitSearchBox, 5, 0, 6, 1);
+        grid.add(exhibitSearchBox, 5, 0);
 
         Label name = new Label("Name:");
         grid.add(name, 0, 2);
@@ -85,7 +85,6 @@ public class ViewAnimals {
         minNumber.getItems().addAll(generator());
         grid.add(minNumber, 5, 2);
 
-
         Label orderByLabel = new Label("Order By:");
         grid.add(orderByLabel, 4,6);
         final ComboBox orderBy = new ComboBox();
@@ -95,10 +94,6 @@ public class ViewAnimals {
         final ComboBox orderType = new ComboBox();
         orderType.getItems().addAll("ASC", "DESC");
         grid.add(orderType, 6,6);
-
-
-
-
 
         Label max = new Label("Max");
         grid.add(max, 6, 1);
